@@ -1,5 +1,5 @@
 /**
- * Example usage of @hydrafacial/virtual-keyboard
+ * Example usage of @kalpesh/virtual-keyboard
  *
  * To run this example:
  * 1. Build the library: cd virtual-keyboard-lib && npm install && npm run build

@@ -1,4 +1,4 @@
-# @hydrafacial/virtual-keyboard
+# @kalpesh/virtual-keyboard
 
 A customizable virtual keyboard component for React applications. Features multiple keyboard layouts (QWERTY, symbols, numbers), hardware keyboard synchronization, touch device support, and full TypeScript support.
 
@@ -15,11 +15,11 @@ A customizable virtual keyboard component for React applications. Features multi
 ## Installation
 
 ```bash
-npm install @hydrafacial/virtual-keyboard
+npm install @kalpesh/virtual-keyboard
 # or
-yarn add @hydrafacial/virtual-keyboard
+yarn add @kalpesh/virtual-keyboard
 # or
-pnpm add @hydrafacial/virtual-keyboard
+pnpm add @kalpesh/virtual-keyboard
 ```
 
 ## Quick Start
@@ -29,8 +29,8 @@ pnpm add @hydrafacial/virtual-keyboard
 Add once at your app root - automatically shows keyboard when any input is focused:
 
 ```tsx
-import { GlobalVirtualKeyboard } from '@hydrafacial/virtual-keyboard';
-import '@hydrafacial/virtual-keyboard/styles.css';
+import { GlobalVirtualKeyboard } from '@kalpesh/virtual-keyboard';
+import '@kalpesh/virtual-keyboard/styles.css';
 
 function App() {
   return (
@@ -52,8 +52,8 @@ For more control over when the keyboard appears:
 
 ```tsx
 import { useRef, useState } from 'react';
-import { VirtualKeyboard } from '@hydrafacial/virtual-keyboard';
-import '@hydrafacial/virtual-keyboard/styles.css';
+import { VirtualKeyboard } from '@kalpesh/virtual-keyboard';
+import '@kalpesh/virtual-keyboard/styles.css';
 
 function App() {
   const inputRef = useRef<HTMLInputElement>(null);
@@ -190,7 +190,7 @@ The keyboard automatically adapts based on `inputType`:
 Manages caret position and text insertion/deletion:
 
 ```tsx
-import { useCaretManager } from '@hydrafacial/virtual-keyboard';
+import { useCaretManager } from '@kalpesh/virtual-keyboard';
 
 function CustomKeyboard() {
   const inputRef = useRef<HTMLInputElement>(null);
@@ -208,7 +208,7 @@ function CustomKeyboard() {
 Handle hold-to-repeat functionality:
 
 ```tsx
-import { useContinuousPress } from '@hydrafacial/virtual-keyboard';
+import { useContinuousPress } from '@kalpesh/virtual-keyboard';
 
 function DeleteButton({ onDelete }) {
   const handlers = useContinuousPress(onDelete, {
@@ -225,7 +225,7 @@ function DeleteButton({ onDelete }) {
 Sync with physical keyboard events:
 
 ```tsx
-import { useHardwareKeyboard } from '@hydrafacial/virtual-keyboard';
+import { useHardwareKeyboard } from '@kalpesh/virtual-keyboard';
 
 function KeyboardHandler() {
   useHardwareKeyboard({
@@ -244,7 +244,7 @@ function KeyboardHandler() {
 Automatically scroll inputs into view when keyboard appears:
 
 ```tsx
-import { useKeyboardScroll } from '@hydrafacial/virtual-keyboard';
+import { useKeyboardScroll } from '@kalpesh/virtual-keyboard';
 
 function MyComponent() {
   const { scrollInput, resetScroll } = useKeyboardScroll();
@@ -280,7 +280,7 @@ import {
   QWERTY_LAYOUT,
   SYMBOLS_LAYOUT,
   NUMBERS_LAYOUT,
-} from '@hydrafacial/virtual-keyboard';
+} from '@kalpesh/virtual-keyboard';
 
 // Use predefined layouts or create custom ones
 const CUSTOM_LAYOUT = [
@@ -318,7 +318,7 @@ import type {
   UseKeyboardScrollReturn,
   LayoutType,
   KeyboardLayoutProps,
-} from '@hydrafacial/virtual-keyboard';
+} from '@kalpesh/virtual-keyboard';
 ```
 
 ## License
