@@ -1,6 +1,6 @@
 {
   "name": "react-virtual-keyboard",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A customizable virtual keyboard component for React applications with support for multiple layouts, hardware keyboard sync, and touch devices",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
@@ -38,7 +38,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/hydrafacial/virtual-keyboard"
+    "url": "git+https://github.com/hydrafacial/virtual-keyboard.git"
   },
   "peerDependencies": {
     "react": ">=17.0.0",
@@ -57,4 +57,3 @@
     "*.css"
   ]
 }
-
