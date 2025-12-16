@@ -1,5 +1,5 @@
 /**
- * Example usage of react-virtual-keyboard
+ * Example usage of reactjs-virtual-keyboard
  *
  * To run this example:
  * 1. Build the library: cd virtual-keyboard-lib && npm install && npm run build
