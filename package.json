@@ -1,5 +1,5 @@
 {
-  "name": "react-/virtual-keyboard",
+  "name": "react-virtual-keyboard",
   "version": "1.0.0",
   "description": "A customizable virtual keyboard component for React applications with support for multiple layouts, hardware keyboard sync, and touch devices",
   "main": "dist/index.js",
