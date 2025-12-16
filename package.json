@@ -34,11 +34,11 @@
     "input",
     "typescript"
   ],
-  "author": "HydraFacial",
+  "author": "kalpesh442266",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/hydrafacial/virtual-keyboard.git"
+    "url": "git+https://github.com/kalpesh442266/virtual-keyboard-lib"
   },
   "peerDependencies": {
     "react": ">=17.0.0",

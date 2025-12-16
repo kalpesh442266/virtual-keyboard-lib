@@ -323,5 +323,5 @@ import type {
 
 ## License
 
-MIT © HydraFacial
+MIT © kalpesh442266
 
