@@ -1,5 +1,5 @@
 /**
- * Example usage of @kalpesh/virtual-keyboard
+ * Example usage of react-virtual-keyboard
  *
  * To run this example:
  * 1. Build the library: cd virtual-keyboard-lib && npm install && npm run build
@@ -9,6 +9,7 @@
  * 5. Import and use as shown below
  */
 
+import React from 'react';
 import { useRef, useState } from 'react';
 import '../src/styles.css';
 import { GlobalVirtualKeyboard } from '../src/components/GlobalVirtualKeyboard';
