@@ -1,0 +1,29 @@
+# Source files (we ship dist only)
+src/
+*.ts
+!*.d.ts
+
+# Config files
+tsconfig.json
+vite.config.ts
+biome.jsonc
+
+# Development
+.gitignore
+.git/
+node_modules/
+
+# IDE
+.idea/
+.vscode/
+
+# Testing
+coverage/
+*.test.ts
+*.test.tsx
+__tests__/
+
+# Misc
+.DS_Store
+*.log
+

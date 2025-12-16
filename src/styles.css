@@ -1,0 +1,430 @@
+/* Virtual Keyboard Styles */
+
+/* CSS Variables for theming - using clamp() for fluid responsive sizing */
+:root {
+  --vk-bg-color: #1a1a1a;
+  --vk-key-color: #444444;
+  --vk-key-text-color: #ffffff;
+  --vk-key-active-color: #666666;
+  --vk-key-hover-color: #555555;
+  --vk-active-state-color: #4a90e2;
+  --vk-key-border-radius: clamp(4px, 0.5vw, 8px);
+  --vk-key-font-size: clamp(14px, 2.5vw, 32px);
+  --vk-special-key-font-size: clamp(20px, 2vw, 28px);
+  --vk-gap: clamp(3px, 0.6vw, 10px);
+  --vk-padding: clamp(6px, 1vw, 16px);
+  --vk-height: 45vh;
+  --vk-z-index: 2001;
+  --vk-numbers-width: 50%;
+}
+
+/* Container */
+.vk-container {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: var(--vk-z-index);
+  height: var(--vk-height);
+  max-height: 400px;
+  min-height: 180px;
+  background-color: var(--vk-bg-color);
+  box-shadow: 0 -2px 12px rgba(0, 0, 0, 0.5);
+  padding: var(--vk-padding);
+  box-sizing: border-box;
+}
+
+.vk-container * {
+  box-sizing: border-box;
+}
+
+/* Layout */
+.vk-layout {
+  display: flex;
+  flex-direction: column;
+  gap: var(--vk-gap);
+  justify-content: center;
+  height: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.vk-layout--numbers {
+  width: var(--vk-numbers-width);
+  max-width: 400px;
+  min-width: 200px;
+  margin-inline: auto;
+}
+
+/* Always hide text labels on special keys in numbers layout */
+.vk-layout--numbers .vk-key__text {
+  display: none;
+}
+
+/* Row */
+.vk-row {
+  display: flex;
+  gap: var(--vk-gap);
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+  min-height: 0;
+}
+
+/* Base Key Styles */
+.vk-key {
+  height: 100%;
+  min-height: 32px;
+  display: flex;
+  font-size: var(--vk-key-font-size);
+  align-items: center;
+  justify-content: center;
+  gap: clamp(2px, 0.4vw, 8px);
+  flex: 0 1 100%;
+  background-color: var(--vk-key-color);
+  color: var(--vk-key-text-color);
+  border-radius: var(--vk-key-border-radius);
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.15s ease, transform 0.1s ease;
+  font-family: inherit;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  padding: 0 clamp(4px, 0.5vw, 12px);
+}
+
+/* Touch-friendly hover only on non-touch devices */
+@media (hover: hover) and (pointer: fine) {
+  .vk-key:hover:not(.vk-key--caps-active) {
+    background-color: var(--vk-key-hover-color);
+  }
+}
+
+.vk-key:active:not(:disabled) {
+  background-color: var(--vk-key-active-color);
+  transform: scale(0.97);
+}
+
+.vk-key:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.vk-key:focus {
+  outline: none;
+}
+
+.vk-key:focus-visible {
+  outline: 2px solid var(--vk-active-state-color);
+  outline-offset: 2px;
+}
+
+/* Special Keys */
+.vk-key--space {
+  flex: 0 1 300%;
+  font-size: var(--vk-special-key-font-size);
+}
+
+.vk-key--layout {
+  flex: 0 1 100%;
+  font-size: var(--vk-special-key-font-size);
+}
+
+.vk-key--enter {
+  flex: 0 1 100%;
+  font-size: var(--vk-special-key-font-size);
+}
+
+.vk-key--enter-num {
+  flex: 0 1 100%;
+  font-size: var(--vk-special-key-font-size);
+}
+
+.vk-key--backspace {
+  flex: 0 1 150%;
+  font-size: var(--vk-special-key-font-size);
+}
+
+.vk-key--backspace-num {
+  flex: 0 1 100%;
+  font-size: var(--vk-special-key-font-size);
+}
+
+.vk-key--capsLock {
+  flex: 0 1 170%;
+  font-size: var(--vk-special-key-font-size);
+}
+
+.vk-key--at {
+  flex: 0 1 70%;
+}
+
+.vk-key--dot {
+  flex: 0 1 70%;
+}
+
+/* Caps Lock Active State */
+.vk-key--caps-active {
+  background-color: var(--vk-active-state-color);
+  color: var(--vk-key-text-color);
+  border-color: var(--vk-active-state-color);
+}
+
+/* Icon styles - responsive icons */
+.vk-key svg {
+  width: clamp(20px, 1.2em, 28px);
+  height: clamp(20px, 1.2em, 28px);
+  flex-shrink: 0;
+}
+
+/* Special key text label */
+.vk-key__text {
+  margin-left: 0.3em;
+}
+
+/* ============================================
+   RESPONSIVE BREAKPOINTS
+   ============================================ */
+
+/* Large Desktop (1400px+) */
+@media (min-width: 1400px) {
+  :root {
+    --vk-height: 38vh;
+  }
+}
+
+/* Desktop / Tablet Landscape (1024px - 1399px) */
+@media (min-width: 1024px) and (max-width: 1399px) {
+  :root {
+    --vk-height: 40vh;
+  }
+}
+
+/* Tablet Portrait (768px - 1023px) */
+@media (min-width: 768px) and (max-width: 1023px) {
+  :root {
+    --vk-height: 38vh;
+    --vk-numbers-width: 60%;
+  }
+
+  .vk-key--space {
+    flex: 0 1 100%;
+  }
+}
+
+/* Large Phone / Small Tablet (600px - 767px) */
+@media (min-width: 600px) and (max-width: 767px) {
+  :root {
+    --vk-height: 42vh;
+    --vk-numbers-width: 65%;
+    --vk-special-key-font-size: clamp(10px, 3vw, 24px);
+  }
+
+  .vk-key--capsLock,
+  .vk-key--backspace {
+    flex: 0 1 130%;
+  }
+
+  /* Hide text labels on special keys, keep only icons */
+  .vk-key__text {
+    display: none;
+  }
+}
+
+/* Phone Portrait (480px - 599px) */
+@media (min-width: 480px) and (max-width: 599px) {
+  :root {
+    --vk-height: 45vh;
+    --vk-numbers-width: 75%;
+  }
+
+  .vk-key--capsLock,
+  .vk-key--backspace {
+    flex: 0 1 120%;
+  }
+
+  /* Hide text labels on special keys, keep only icons */
+  .vk-key__text {
+    display: none;
+  }
+}
+
+/* Small Phone (320px - 479px) */
+@media (max-width: 479px) {
+  :root {
+    --vk-height: 48vh;
+    --vk-numbers-width: 85%;
+  }
+
+  .vk-layout--numbers {
+    min-width: 160px;
+  }
+
+  .vk-key--capsLock,
+  .vk-key--backspace {
+    flex: 0 1 100%;
+  }
+
+  /* Hide text labels on special keys, keep only icons */
+  .vk-key__text {
+    display: none;
+  }
+}
+
+/* Very Small Phone (< 320px) */
+@media (max-width: 319px) {
+  :root {
+    --vk-height: 50vh;
+    --vk-numbers-width: 95%;
+  }
+
+  .vk-key--space {
+    flex: 0 1 40%;
+  }
+
+  .vk-key--layout,
+  .vk-key--enter {
+    flex: 0 1 22%;
+  }
+
+  /* Hide text labels on special keys, keep only icons */
+  .vk-key__text {
+    display: none;
+  }
+}
+
+/* ============================================
+   LANDSCAPE ORIENTATION ADJUSTMENTS
+   ============================================ */
+
+/* Landscape on phones/tablets - reduce keyboard height */
+@media (orientation: landscape) and (max-height: 500px) {
+  :root {
+    --vk-height: 55vh;
+    --vk-gap: clamp(2px, 0.4vw, 6px);
+    --vk-padding: clamp(4px, 0.5vw, 10px);
+  }
+
+  .vk-container {
+    max-height: 280px;
+  }
+
+  .vk-key {
+    min-height: 28px;
+  }
+
+  /* Hide text labels on special keys in landscape, keep only icons */
+  .vk-key__text {
+    display: none;
+  }
+}
+
+@media (orientation: landscape) and (max-height: 400px) {
+  :root {
+    --vk-height: 65vh;
+  }
+
+  .vk-container {
+    max-height: 240px;
+    min-height: 140px;
+  }
+
+  .vk-key {
+    min-height: 24px;
+  }
+}
+
+/* ============================================
+   HIGH DPI / RETINA DISPLAYS
+   ============================================ */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  .vk-key {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+/* ============================================
+   THEME VARIANTS
+   ============================================ */
+
+/* Dark mode support */
+@media (prefers-color-scheme: light) {
+  .vk-container--auto {
+    --vk-bg-color: #f0f0f0;
+    --vk-key-color: #ffffff;
+    --vk-key-text-color: #333333;
+    --vk-key-hover-color: #e8e8e8;
+    --vk-key-active-color: #d0d0d0;
+  }
+}
+
+/* Custom theme classes */
+.vk-container--light {
+  --vk-bg-color: #f0f0f0;
+  --vk-key-color: #ffffff;
+  --vk-key-text-color: #333333;
+  --vk-key-hover-color: #e8e8e8;
+  --vk-key-active-color: #d0d0d0;
+  box-shadow: 0 -2px 12px rgba(0, 0, 0, 0.15);
+}
+
+.vk-container--blue {
+  --vk-bg-color: #1e3a5f;
+  --vk-key-color: #2d5a8c;
+  --vk-key-hover-color: #3a6fa0;
+  --vk-key-active-color: #4a8ab8;
+  --vk-active-state-color: #00d4ff;
+}
+
+.vk-container--purple {
+  --vk-bg-color: #2d1b4e;
+  --vk-key-color: #4a2c7a;
+  --vk-key-hover-color: #5d3a94;
+  --vk-key-active-color: #7048ad;
+  --vk-active-state-color: #b388ff;
+}
+
+/* ============================================
+   ACCESSIBILITY
+   ============================================ */
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .vk-key {
+    transition: none;
+  }
+
+  .vk-key:active:not(:disabled) {
+    transform: none;
+  }
+}
+
+/* High contrast mode */
+@media (prefers-contrast: high) {
+  .vk-key {
+    border: 1px solid var(--vk-key-text-color);
+  }
+
+  .vk-key:focus-visible {
+    outline-width: 3px;
+  }
+}
+
+/* ============================================
+   TOUCH DEVICE OPTIMIZATIONS
+   ============================================ */
+
+/* Ensure proper touch targets on touch devices */
+@media (pointer: coarse) {
+  .vk-key {
+    min-height: 40px;
+  }
+
+  /* Slightly larger gaps for touch */
+  :root {
+    --vk-gap: clamp(4px, 0.7vw, 10px);
+  }
+}
