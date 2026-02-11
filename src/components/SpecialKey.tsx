@@ -1,16 +1,18 @@
-import type { FC } from 'react';
+import { memo, type FC } from 'react';
 import type { SpecialKeyProps } from '../types';
 import { useContinuousPress } from '../hooks';
 
-export const SpecialKey: FC<SpecialKeyProps> = ({
-  type,
-  icon,
-  onClick,
-  extraClass = '',
-  text,
-  capsLock = false,
-  enableContinuousPress = false,
-}) => {
+export const SpecialKey: FC<SpecialKeyProps> = memo((props) => {
+  const {
+    type,
+    icon,
+    onClick,
+    extraClass = '',
+    text,
+    capsLock = false,
+    enableContinuousPress = false,
+  } = props;
+
   const isCapsLockActive = type === 'caps' && capsLock;
   const keyClasses = [
     'vk-key',
@@ -27,7 +29,9 @@ export const SpecialKey: FC<SpecialKeyProps> = ({
   });
 
   // Use continuous press handlers if enabled, otherwise use regular click
-  const buttonHandlers = enableContinuousPress ? continuousPressHandlers : { onClick };
+  const buttonHandlers = enableContinuousPress
+    ? continuousPressHandlers
+    : { onClick };
 
   return (
     <button
@@ -41,6 +45,8 @@ export const SpecialKey: FC<SpecialKeyProps> = ({
       {text && <span className="vk-key__text">{text}</span>}
     </button>
   );
-};
+});
+
+SpecialKey.displayName = 'SpecialKey';
 
 export default SpecialKey;

@@ -9,17 +9,23 @@ export { KeyboardRow } from './components/KeyboardRow';
 export { VirtualKey } from './components/VirtualKey';
 export { SpecialKey } from './components/SpecialKey';
 
-// Hook exports
-export { useCaretManager } from './hooks/useCaretManager';
+// Hook exports (only hooks that actually need React state/effects)
 export { useContinuousPress } from './hooks/useContinuousPress';
-export { useHardwareKeyboard } from './hooks/useHardwareKeyboard';
 export { useKeyboardScroll } from './hooks/useKeyboardScroll';
 
-// Utility exports
-export { setInputValueAndDispatchEvents } from './utils/inputEvents';
-export { validateValueUtil, getInitialLayout } from './utils/validators';
-export { scrollInputIntoView, resetScrollPosition } from './utils/scrollUtils';
-export { onEnterClickUtil, handleValueChangeUtil, validateFocusInputs } from './utils/globalKeyboardUtils';
+// Utility exports - pure functions for advanced usage
+export {
+  setInputValueAndDispatchEvents,
+  validateValueUtil,
+  getInitialLayout,
+  scrollInputIntoView,
+  resetScrollPosition,
+  onEnterClickUtil,
+  handleValueChangeUtil,
+  validateFocusInputs,
+  createCaretManager,
+  setupHardwareKeyboard,
+} from './utils';
 
 // Constant exports
 export { QWERTY_LAYOUT, SYMBOLS_LAYOUT, NUMBERS_LAYOUT, DEFAULT_THEME } from './constants';
@@ -43,6 +49,8 @@ export type {
   SpecialKeyProps,
   KeyboardRowProps,
   ContinuousPressOptions,
+  ContinuousPressConfig,
+  ScrollConfig,
   UseCaretManagerReturn,
   HardwareKeyboardHandlers,
   InputElement,

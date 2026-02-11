@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState, type FC } from 'react';
 import { VirtualKeyboard } from './VirtualKeyboard';
-import { onEnterClickUtil, validateFocusInputs } from '../utils/globalKeyboardUtils';
+import { onEnterClickUtil, validateFocusInputs } from '../utils/keyboard-helpers';
 import { useKeyboardScroll } from '../hooks/useKeyboardScroll';
 
 export interface GlobalVirtualKeyboardProps {

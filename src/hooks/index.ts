@@ -1,5 +1,4 @@
-export { useCaretManager } from './useCaretManager';
+// Only export hooks that truly need React state/effects
 export { useContinuousPress } from './useContinuousPress';
-export { useHardwareKeyboard } from './useHardwareKeyboard';
 export { useKeyboardScroll } from './useKeyboardScroll';
 export type { UseKeyboardScrollReturn } from './useKeyboardScroll';

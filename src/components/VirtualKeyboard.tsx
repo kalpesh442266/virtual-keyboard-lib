@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useState, type FC } from 'react';
 import type { VirtualKeyboardProps, LayoutType } from '../types';
-import { useCaretManager, useHardwareKeyboard } from '../hooks';
-import { validateValueUtil, getInitialLayout } from '../utils';
+import { createCaretManager, setupHardwareKeyboard, validateValueUtil, getInitialLayout } from '../utils';
 import { KeyboardLayout } from './KeyboardLayout';
 import { VirtualKeyboardContainer } from './VirtualKeyboardContainer';
 
@@ -21,9 +20,16 @@ export const VirtualKeyboard: FC<VirtualKeyboardProps> = ({
   className,
   defaultLayout = 'letters',
   validate,
+  syncWithHardwareKeyboard = true,
+  customLayouts,
+  languages,
+  currentLanguage,
+  onLanguageChange,
+  showLanguageSwitcher = false,
 }) => {
   const [capsLock, setCapsLock] = useState(false);
-  const { insertText, backspace } = useCaretManager(focusedInputRef);
+  const [selectedLanguage, setSelectedLanguage] = useState(currentLanguage || Object.keys(languages || {})[0] || 'en');
+  const { insertText, backspace } = createCaretManager(() => focusedInputRef.current);
 
   const [currentLayout, setCurrentLayout] = useState<LayoutType>(() =>
     getInitialLayout(inputType, defaultLayout)
@@ -63,25 +69,17 @@ export const VirtualKeyboard: FC<VirtualKeyboardProps> = ({
 
   const handleSpace = useCallback(() => {
     updateValue(' ');
-  }, [updateValue]);
+    insertText(' ');
+    onChange?.(focusedInputRef.current?.value || '');
+  }, [insertText, onChange, focusedInputRef]);
 
   const handleCapsToggle = useCallback(() => {
     setCapsLock((prev) => !prev);
   }, []);
 
-  const handleLayoutToggle = useCallback(() => {
-    if (inputType === 'number') {
-      // For number inputs, don't allow switching away from numbers layout
-      return;
-    }
-    setCurrentLayout((prev) => (prev === 'letters' ? 'symbols' : 'letters'));
-  }, [inputType]);
-
   // Update layout when input type changes
-
   useEffect(() => {
     setCurrentLayout(getInitialLayout(inputType, defaultLayout));
-    // Only update if dependencies change, but functionally mirrors the initial state
   }, [inputType, defaultLayout]);
 
   const keysHandlers = {
@@ -92,19 +90,55 @@ export const VirtualKeyboard: FC<VirtualKeyboardProps> = ({
     onKeyClick: handleKeyClick,
   };
 
-  useHardwareKeyboard({
+  // Setup hardware keyboard sync
+  useEffect(() => {
+    if (!isInputFocused || !syncWithHardwareKeyboard) return;
+    return setupHardwareKeyboard(keysHandlers);
+  }, [
     isInputFocused,
-    ...keysHandlers,
-  });
+    syncWithHardwareKeyboard,
+    handleKeyClick,
+    handleBackspace,
+    handleEnter,
+    handleSpace,
+    handleCapsToggle,
+  ]);
+
+  // Handle language change
+  const handleLanguageChange = (lang: string) => {
+    setSelectedLanguage(lang);
+    onLanguageChange?.(lang);
+  };
+
+  // Determine active layouts (language-specific or custom or default)
+  const activeLayouts = languages?.[selectedLanguage] || customLayouts;
 
   return (
     <VirtualKeyboardContainer className={className}>
+      {showLanguageSwitcher && languages && Object.keys(languages).length > 1 && (
+        <div className="vk-language-switcher">
+          {Object.entries(languages).map(([code, config]) => (
+            <button
+              key={code}
+              className={`vk-lang-btn ${selectedLanguage === code ? 'active' : ''}`}
+              onClick={() => handleLanguageChange(code)}
+            >
+              {config.label || code.toUpperCase()}
+            </button>
+          ))}
+        </div>
+      )}
       <KeyboardLayout
-        currentLayout={currentLayout}
         capsLock={capsLock}
-        {...keysHandlers}
-        onLayoutToggle={handleLayoutToggle}
+        currentLayout={currentLayout}
+        onKeyClick={handleKeyClick}
+        onBackspace={handleBackspace}
+        onEnter={handleEnter}
+        onSpace={handleSpace}
+        onCapsToggle={handleCapsToggle}
+        onLayoutToggle={() => setCurrentLayout((prev) => (prev === 'letters' ? 'symbols' : 'letters'))}
         inputType={inputType}
+        customLayouts={activeLayouts}
       />
     </VirtualKeyboardContainer>
   );

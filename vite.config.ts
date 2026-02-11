@@ -25,11 +25,37 @@ export default defineConfig({
           'react/jsx-runtime': 'jsxRuntime',
         },
         assetFileNames: 'styles.[ext]',
+        // Optimize output
+        compact: true,
+        generatedCode: {
+          constBindings: true,
+        },
+      },
+      treeshake: {
+        moduleSideEffects: false,
+        propertyReadSideEffects: false,
+        tryCatchDeoptimization: false,
       },
     },
     cssCodeSplit: false,
     sourcemap: true,
-    minify: 'esbuild',
+    // Use terser for better minification
+    minify: 'terser',
+    terserOptions: {
+      compress: {
+        drop_console: false, // Keep console for library
+        drop_debugger: true,
+        passes: 2,
+        pure_getters: true,
+        unsafe_comps: true,
+      },
+      mangle: {
+        safari10: true,
+      },
+      format: {
+        comments: false,
+      },
+    },
   },
   resolve: {
     alias: {

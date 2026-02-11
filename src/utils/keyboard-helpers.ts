@@ -1,5 +1,5 @@
 import type { RefObject } from 'react';
-import { setInputValueAndDispatchEvents } from './inputEvents';
+import { setInputValueAndDispatchEvents } from './input-value-sync';
 
 type FocusedInputRef = RefObject<HTMLInputElement | HTMLTextAreaElement | null>;
 

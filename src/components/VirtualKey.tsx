@@ -1,7 +1,7 @@
-import type { FC } from 'react';
+import { memo, type FC } from 'react';
 import type { VirtualKeyProps } from '../types';
 
-export const VirtualKey: FC<VirtualKeyProps> = ({ keyValue, onClick, className = '' }) => {
+export const VirtualKey: FC<VirtualKeyProps> = memo(({ keyValue, onClick, className = '' }) => {
   const keyClasses = ['vk-key', className].filter(Boolean).join(' ');
 
   return (
@@ -14,6 +14,8 @@ export const VirtualKey: FC<VirtualKeyProps> = ({ keyValue, onClick, className =
       {keyValue}
     </button>
   );
-};
+});
+
+VirtualKey.displayName = 'VirtualKey';
 
 export default VirtualKey;

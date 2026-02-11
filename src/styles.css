@@ -26,12 +26,15 @@
   right: 0;
   z-index: var(--vk-z-index);
   height: var(--vk-height);
-  max-height: 400px;
+  max-height: 90vh;
+  /* Changed from 400px */
   min-height: 180px;
   background-color: var(--vk-bg-color);
   box-shadow: 0 -2px 12px rgba(0, 0, 0, 0.5);
   padding: var(--vk-padding);
   box-sizing: border-box;
+  overflow-y: auto;
+  /* Added overflow handling */
 }
 
 .vk-container * {
@@ -339,7 +342,8 @@
 /* ============================================
    HIGH DPI / RETINA DISPLAYS
    ============================================ */
-@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+@media (-webkit-min-device-pixel-ratio: 2),
+(min-resolution: 192dpi) {
   .vk-key {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -427,4 +431,43 @@
   :root {
     --vk-gap: clamp(4px, 0.7vw, 10px);
   }
+}
+
+/* Language Switcher */
+.vk-language-switcher {
+  display: flex;
+  gap: 6px;
+  padding: 6px 8px;
+  background: var(--vk-bg-color, #1a1a1a);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.vk-lang-btn {
+  padding: 4px 10px;
+  background: var(--vk-key-color, #2d2d2d);
+  color: var(--vk-key-text-color, #ffffff);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: calc(var(--vk-key-border-radius, 8px) * 0.75);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-width: 50px;
+}
+
+.vk-lang-btn:hover {
+  background: var(--vk-key-hover-color, #3d3d3d);
+  transform: translateY(-1px);
+}
+
+.vk-lang-btn.active {
+  background: var(--vk-active-state-color, #4a9eff);
+  border-color: var(--vk-active-state-color, #4a9eff);
+  color: #ffffff;
+}
+
+.vk-lang-btn:active {
+  transform: translateY(0);
 }

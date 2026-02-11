@@ -2,6 +2,20 @@ import type { HTMLInputTypeAttribute, RefObject, ReactNode } from 'react';
 
 export type LayoutType = 'letters' | 'symbols' | 'numbers';
 
+export interface ContinuousPressConfig {
+  /** Delay before continuous press starts (ms) */
+  initialDelay?: number;
+  /** Interval between repeated presses (ms) */
+  interval?: number;
+}
+
+export interface ScrollConfig {
+  /** Enable automatic scrolling when keyboard appears */
+  enabled?: boolean;
+  /** Additional offset padding (px) */
+  offset?: number;
+}
+
 export interface VirtualKeyboardProps {
   /** Ref to the currently focused input element */
   focusedInputRef: RefObject<HTMLInputElement | HTMLTextAreaElement | null>;
@@ -21,6 +35,47 @@ export interface VirtualKeyboardProps {
   validate?: (value: string) => boolean;
   /** Theme configuration */
   theme?: VirtualKeyboardTheme;
+
+  // Extended customization options
+  /** Custom keyboard layouts (overrides default layouts) */
+  customLayouts?: {
+    letters?: string[][];
+    symbols?: string[][];
+    numbers?: string[][];
+  };
+  /** Continuous press configuration for backspace */
+  continuousPressConfig?: ContinuousPressConfig;
+  /** Scroll behavior configuration */
+  scrollConfig?: ScrollConfig;
+  /** Enable/disable hardware keyboard synchronization */
+  syncWithHardwareKeyboard?: boolean;
+  /** Custom key labels (e.g., { 'enter': 'Submit', 'space': 'Space Bar' }) */
+  keyLabels?: Record<string, string>;
+  /** Keys to hide from the keyboard */
+  hiddenKeys?: string[];
+  /** Keys to disable (grayed out and non-clickable) */
+  disabledKeys?: string[];
+  /** Custom render function for individual keys */
+  renderKey?: (key: string, defaultRender: ReactNode) => ReactNode;
+  /** Custom render function for special keys */
+  renderSpecialKey?: (type: string, defaultRender: ReactNode) => ReactNode;
+
+  // Multi-language support
+  /** Multi-language keyboard layouts */
+  languages?: {
+    [languageCode: string]: {
+      letters?: string[][];
+      symbols?: string[][];
+      numbers?: string[][];
+      label?: string; // Display name for the language
+    };
+  };
+  /** Currently selected language code */
+  currentLanguage?: string;
+  /** Callback when language changes */
+  onLanguageChange?: (languageCode: string) => void;
+  /** Show language switcher button */
+  showLanguageSwitcher?: boolean;
 }
 
 export interface VirtualKeyboardTheme {
@@ -53,12 +108,17 @@ export interface KeyboardLayoutProps {
   onSpace: () => void;
   onCapsToggle: () => void;
   onLayoutToggle: () => void;
-  inputType: HTMLInputTypeAttribute;
+  inputType?: HTMLInputTypeAttribute;
+  customLayouts?: {
+    letters?: string[][];
+    symbols?: string[][];
+    numbers?: string[][];
+  };
 }
 
 export interface TextLayoutProps {
-  inputType: HTMLInputTypeAttribute;
-  currentLayoutData: string[][];
+  inputType?: HTMLInputTypeAttribute;
+  currentLayoutData: ReadonlyArray<ReadonlyArray<string>> | string[][];
   onBackspace: () => void;
   onEnter: () => void;
   onSpace: () => void;
@@ -70,7 +130,7 @@ export interface TextLayoutProps {
 }
 
 export interface NumbersLayoutProps {
-  currentLayoutData: string[][];
+  currentLayoutData: ReadonlyArray<ReadonlyArray<string>> | string[][];
   onBackspace: () => void;
   onEnter: () => void;
   onKeyClick: (key: string) => void;

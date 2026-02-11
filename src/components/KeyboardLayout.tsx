@@ -14,13 +14,14 @@ export const KeyboardLayout: FC<KeyboardLayoutProps> = ({
   onCapsToggle,
   onLayoutToggle,
   inputType,
+  customLayouts,
 }) => {
   const currentLayoutData =
     currentLayout === 'letters'
-      ? QWERTY_LAYOUT
+      ? (customLayouts?.letters || QWERTY_LAYOUT)
       : currentLayout === 'symbols'
-        ? SYMBOLS_LAYOUT
-        : NUMBERS_LAYOUT;
+        ? (customLayouts?.symbols || SYMBOLS_LAYOUT)
+        : (customLayouts?.numbers || NUMBERS_LAYOUT);
 
   // Numbers layout has a different structure (4x5 grid)
   if (currentLayout === 'numbers') {
