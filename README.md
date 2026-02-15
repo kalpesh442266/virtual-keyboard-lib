@@ -2,6 +2,8 @@
 
 A lightweight, customizable virtual keyboard component for React applications. Features multiple layouts, multi-language support, hardware keyboard sync, extensive customization options, and full TypeScript support.
 
+📚 **[Documentation & Live Demo](https://kalpesh442266.github.io/virtual-keyboard-lib/)**
+
 ## ✨ Features
 
 - **🎹 Multiple Layouts**: QWERTY letters, symbols, and numeric keypad
