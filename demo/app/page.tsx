@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import Link from 'next/link';
 import 'reactjs-virtual-keyboard/styles.css';
 
 export default function HomePage() {
@@ -76,21 +76,21 @@ function App() {
       <section>
         <h2>📚 Next Steps</h2>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '16px', margin: '24px 0' }}>
-          <a href="/api-reference" style={{ background: '#0b1220', padding: '24px', borderRadius: '12px', border: '1px solid #1f2937', textDecoration: 'none', color: 'inherit', transition: 'all 200ms' }}>
+          <Link href="/api-reference" style={{ background: '#0b1220', padding: '24px', borderRadius: '12px', border: '1px solid #1f2937', textDecoration: 'none', color: 'inherit', transition: 'all 200ms' }}>
             <div style={{ fontSize: '24px', marginBottom: '8px' }}>📖</div>
             <h3 style={{ margin: '0 0 8px', color: '#e2e8f0' }}>API Reference</h3>
             <p style={{ margin: 0, color: '#94a3b8', fontSize: '14px' }}>Complete documentation of all props and utilities</p>
-          </a>
-          <a href="/playground" style={{ background: '#0b1220', padding: '24px', borderRadius: '12px', border: '1px solid #1f2937', textDecoration: 'none', color: 'inherit', transition: 'all 200ms' }}>
+          </Link>
+          <Link href="/playground" style={{ background: '#0b1220', padding: '24px', borderRadius: '12px', border: '1px solid #1f2937', textDecoration: 'none', color: 'inherit', transition: 'all 200ms' }}>
             <div style={{ fontSize: '24px', marginBottom: '8px' }}>🎮</div>
             <h3 style={{ margin: '0 0 8px', color: '#e2e8f0' }}>Playground</h3>
             <p style={{ margin: 0, color: '#94a3b8', fontSize: '14px' }}>Interactive prop customization and live preview</p>
-          </a>
-          <a href="/examples" style={{ background: '#0b1220', padding: '24px', borderRadius: '12px', border: '1px solid #1f2937', textDecoration: 'none', color: 'inherit', transition: 'all 200ms' }}>
+          </Link>
+          <Link href="/examples" style={{ background: '#0b1220', padding: '24px', borderRadius: '12px', border: '1px solid #1f2937', textDecoration: 'none', color: 'inherit', transition: 'all 200ms' }}>
             <div style={{ fontSize: '24px', marginBottom: '8px' }}>💡</div>
             <h3 style={{ margin: '0 0 8px', color: '#e2e8f0' }}>Examples</h3>
             <p style={{ margin: 0, color: '#94a3b8', fontSize: '14px' }}>Real-world usage examples and patterns</p>
-          </a>
+          </Link>
         </div>
       </section>
     </div>

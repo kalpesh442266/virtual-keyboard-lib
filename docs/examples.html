@@ -1,0 +1,60 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="stylesheet" href="/virtual-keyboard-lib/_next/static/css/7e87a78e599e5987.css" data-precedence="next"/><link rel="stylesheet" href="/virtual-keyboard-lib/_next/static/css/8efd66b6b3fbaa1c.css" data-precedence="next"/><link rel="preload" as="script" fetchPriority="low" href="/virtual-keyboard-lib/_next/static/chunks/webpack-9ccec2ebc6489690.js"/><script src="/virtual-keyboard-lib/_next/static/chunks/fd9d1056-4817102c93d54cf4.js" async=""></script><script src="/virtual-keyboard-lib/_next/static/chunks/117-df5cae4004bc2b8a.js" async=""></script><script src="/virtual-keyboard-lib/_next/static/chunks/main-app-35ba51629eb08ac7.js" async=""></script><script src="/virtual-keyboard-lib/_next/static/chunks/407-1a6c323a83a1e959.js" async=""></script><script src="/virtual-keyboard-lib/_next/static/chunks/app/examples/page-b19494333a4a5461.js" async=""></script><script src="/virtual-keyboard-lib/_next/static/chunks/648-2a297b053a303788.js" async=""></script><script src="/virtual-keyboard-lib/_next/static/chunks/app/layout-b0edabf55cd7e498.js" async=""></script><title>React Virtual Keyboard</title><meta name="description" content="A lightweight, customizable virtual keyboard for React"/><script src="/virtual-keyboard-lib/_next/static/chunks/polyfills-42372ed130431b0a.js" noModule=""></script></head><body><nav class="main-nav"><div class="nav-container"><div class="nav-brand"><a href="/virtual-keyboard-lib">⌨️ Virtual Keyboard</a></div><div class="nav-links"><a class="nav-link" href="/virtual-keyboard-lib">Getting Started</a><a class="nav-link" href="/virtual-keyboard-lib/api-reference">API Reference</a><a class="nav-link" href="/virtual-keyboard-lib/playground">Playground</a><a class="nav-link" href="/virtual-keyboard-lib/examples">Examples</a></div><a href="https://github.com/kalpesh442266/virtual-keyboard-lib" target="_blank" rel="noopener noreferrer" class="github-link">GitHub</a></div></nav><div class="docs-layout"><div class="docs-header"><h1>Examples</h1><p>Real-world usage patterns and common scenarios</p></div><section><h2>🌍 Multi-Language Keyboard</h2><p class="helper">Support multiple languages with custom keyboard layouts and built-in language switcher.</p><div style="background:#0b1220;padding:24px;border-radius:12px;border:1px solid #1f2937"><div class="demo-input" style="margin-bottom:16px"><input type="text" placeholder="Type in any language..." value=""/><div style="margin-top:8px;color:#94a3b8;font-size:14px">Current language: <strong>🇺🇸 English</strong></div></div><div style="margin-top:24px" class="code-block"><code>const languages = {
+  en: {
+    label: &#x27;🇺🇸 English&#x27;,
+    letters: [[&#x27;q&#x27;, &#x27;w&#x27;, &#x27;e&#x27;, ...], [&#x27;a&#x27;, &#x27;s&#x27;, &#x27;d&#x27;, ...], ...]
+  },
+  es: {
+    label: &#x27;🇪🇸 Español&#x27;,
+    letters: [[&#x27;q&#x27;, &#x27;w&#x27;, &#x27;e&#x27;, ...], [&#x27;a&#x27;, &#x27;s&#x27;, &#x27;d&#x27;, ..., &#x27;ñ&#x27;], ...]
+  },
+  // ... more languages
+};
+
+&lt;VirtualKeyboard
+  languages={languages}
+  currentLanguage={currentLang}
+  onLanguageChange={setCurrentLang}
+  showLanguageSwitcher={true}
+  {...props}
+/&gt;</code></div></div></section><section><h2>✅ Form Validation</h2><p class="helper">Use custom validation to restrict valid input values.</p><div style="background:#0b1220;padding:24px;border-radius:12px;border:1px solid #1f2937"><div class="demo-input" style="margin-bottom:16px"><input type="email" placeholder="Enter your email" value=""/></div><div style="margin-top:24px" class="code-block"><code>const validateEmail = (value: string) =&gt; {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  setError(emailRegex.test(value) ? &#x27;&#x27; : &#x27;Invalid&#x27;);
+  return true;
+};
+
+&lt;VirtualKeyboard
+  inputType=&quot;email&quot;
+  validate={validateEmail}
+  {...props}
+/&gt;</code></div></div></section><section><h2>🏷️ Custom Key Labels</h2><p class="helper">Customize key labels for specific use cases (e.g., &quot;Submit&quot; instead of &quot;Enter&quot;).</p><div class="code-block"><code>&lt;VirtualKeyboard
+  {...props}
+  keyLabels={{
+    enter: &#x27;Submit&#x27;,
+    space: &#x27;Space Bar&#x27;,
+    backspace: &#x27;Delete&#x27;
+  }}
+/&gt;</code></div></section><section><h2>👁️ Hiding Specific Keys</h2><p class="helper">Hide keys that aren&#x27;t needed for your use case.</p><div class="code-block"><code>&lt;VirtualKeyboard
+  {...props}
+  hiddenKeys={[&#x27;capslock&#x27;, &#x27;@&#x27;, &#x27;#&#x27;]}
+/&gt;</code></div></section><section><h2>🎨 Custom Theme</h2><p class="helper">Create a custom theme to match your app&#x27;s design.</p><div class="code-block"><code>const neonTheme = {
+  backgroundColor: &#x27;#0a0a0a&#x27;,
+  keyColor: &#x27;#1a1a2e&#x27;,
+  keyTextColor: &#x27;#00ff9f&#x27;,
+  keyActiveColor: &#x27;#ff00ff&#x27;,
+  keyHoverColor: &#x27;#16213e&#x27;,
+  activeStateColor: &#x27;#00ff9f&#x27;,
+  keyBorderRadius: &#x27;8px&#x27;,
+  keyFontSize: &#x27;18px&#x27;,
+  keyHeight: &#x27;50px&#x27;
+};
+
+&lt;VirtualKeyboard theme={neonTheme} {...props} /&gt;</code></div></section><section><h2>⌨️ Disable Hardware Keyboard Sync</h2><p class="helper">Prevent virtual keyboard from syncing with physical keyboard.</p><div class="code-block"><code>&lt;VirtualKeyboard
+  syncWithHardwareKeyboard={false}
+  {...props}
+/&gt;</code></div></section><section><h2>⏱️ Adjust Continuous Press Timing</h2><p class="helper">Make backspace repeat faster or slower when held down.</p><div class="code-block"><code>&lt;VirtualKeyboard
+  continuousPressConfig={{
+    initialDelay: 300,  // Start repeating after 300ms
+    interval: 30        // Repeat every 30ms
+  }}
+  {...props}
+/&gt;</code></div></section></div><script src="/virtual-keyboard-lib/_next/static/chunks/webpack-9ccec2ebc6489690.js" async=""></script><script>(self.__next_f=self.__next_f||[]).push([0]);self.__next_f.push([2,null])</script><script>self.__next_f.push([1,"1:HL[\"/virtual-keyboard-lib/_next/static/css/7e87a78e599e5987.css\",\"style\"]\n2:HL[\"/virtual-keyboard-lib/_next/static/css/8efd66b6b3fbaa1c.css\",\"style\"]\n"])</script><script>self.__next_f.push([1,"3:I[2846,[],\"\"]\n5:I[9107,[],\"ClientPageRoot\"]\n6:I[8885,[\"407\",\"static/chunks/407-1a6c323a83a1e959.js\",\"668\",\"static/chunks/app/examples/page-b19494333a4a5461.js\"],\"default\",1]\n7:I[4707,[],\"\"]\n8:I[6423,[],\"\"]\n9:I[3106,[\"648\",\"static/chunks/648-2a297b053a303788.js\",\"185\",\"static/chunks/app/layout-b0edabf55cd7e498.js\"],\"Navigation\"]\nb:I[1060,[],\"\"]\nc:[]\n"])</script><script>self.__next_f.push([1,"0:[\"$\",\"$L3\",null,{\"buildId\":\"xUIK0--RMQjhIr4gvdUip\",\"assetPrefix\":\"/virtual-keyboard-lib\",\"urlParts\":[\"\",\"examples\"],\"initialTree\":[\"\",{\"children\":[\"examples\",{\"children\":[\"__PAGE__\",{}]}]},\"$undefined\",\"$undefined\",true],\"initialSeedData\":[\"\",{\"children\":[\"examples\",{\"children\":[\"__PAGE__\",{},[[\"$L4\",[\"$\",\"$L5\",null,{\"props\":{\"params\":{},\"searchParams\":{}},\"Component\":\"$6\"}],[[\"$\",\"link\",\"0\",{\"rel\":\"stylesheet\",\"href\":\"/virtual-keyboard-lib/_next/static/css/8efd66b6b3fbaa1c.css\",\"precedence\":\"next\",\"crossOrigin\":\"$undefined\"}]]],null],null]},[null,[\"$\",\"$L7\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"examples\",\"children\"],\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"errorScripts\":\"$undefined\",\"template\":[\"$\",\"$L8\",null,{}],\"templateStyles\":\"$undefined\",\"templateScripts\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\"}]],null]},[[[[\"$\",\"link\",\"0\",{\"rel\":\"stylesheet\",\"href\":\"/virtual-keyboard-lib/_next/static/css/7e87a78e599e5987.css\",\"precedence\":\"next\",\"crossOrigin\":\"$undefined\"}]],[\"$\",\"html\",null,{\"lang\":\"en\",\"children\":[\"$\",\"body\",null,{\"children\":[[\"$\",\"$L9\",null,{}],[\"$\",\"$L7\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\"],\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"errorScripts\":\"$undefined\",\"template\":[\"$\",\"$L8\",null,{}],\"templateStyles\":\"$undefined\",\"templateScripts\":\"$undefined\",\"notFound\":[[\"$\",\"title\",null,{\"children\":\"404: This page could not be found.\"}],[\"$\",\"div\",null,{\"style\":{\"fontFamily\":\"system-ui,\\\"Segoe UI\\\",Roboto,Helvetica,Arial,sans-serif,\\\"Apple Color Emoji\\\",\\\"Segoe UI Emoji\\\"\",\"height\":\"100vh\",\"textAlign\":\"center\",\"display\":\"flex\",\"flexDirection\":\"column\",\"alignItems\":\"center\",\"justifyContent\":\"center\"},\"children\":[\"$\",\"div\",null,{\"children\":[[\"$\",\"style\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"body{color:#000;background:#fff;margin:0}.next-error-h1{border-right:1px solid rgba(0,0,0,.3)}@media (prefers-color-scheme:dark){body{color:#fff;background:#000}.next-error-h1{border-right:1px solid rgba(255,255,255,.3)}}\"}}],[\"$\",\"h1\",null,{\"className\":\"next-error-h1\",\"style\":{\"display\":\"inline-block\",\"margin\":\"0 20px 0 0\",\"padding\":\"0 23px 0 0\",\"fontSize\":24,\"fontWeight\":500,\"verticalAlign\":\"top\",\"lineHeight\":\"49px\"},\"children\":\"404\"}],[\"$\",\"div\",null,{\"style\":{\"display\":\"inline-block\"},\"children\":[\"$\",\"h2\",null,{\"style\":{\"fontSize\":14,\"fontWeight\":400,\"lineHeight\":\"49px\",\"margin\":0},\"children\":\"This page could not be found.\"}]}]]}]}]],\"notFoundStyles\":[]}]]}]}]],null],null],\"couldBeIntercepted\":false,\"initialHead\":[null,\"$La\"],\"globalErrorComponent\":\"$b\",\"missingSlots\":\"$Wc\"}]\n"])</script><script>self.__next_f.push([1,"a:[[\"$\",\"meta\",\"0\",{\"name\":\"viewport\",\"content\":\"width=device-width, initial-scale=1\"}],[\"$\",\"meta\",\"1\",{\"charSet\":\"utf-8\"}],[\"$\",\"title\",\"2\",{\"children\":\"React Virtual Keyboard\"}],[\"$\",\"meta\",\"3\",{\"name\":\"description\",\"content\":\"A lightweight, customizable virtual keyboard for React\"}]]\n4:null\n"])</script></body></html>

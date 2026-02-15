@@ -401,7 +401,7 @@ cd demo && npm install && npm run dev
 
 ## 📄 License
 
-MIT © [Your Name]
+MIT © Kalpesh Rane
 
 ---
 

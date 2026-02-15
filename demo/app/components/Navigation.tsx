@@ -1,7 +1,6 @@
 'use client';
 
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
 
 const navigation = [
     { name: 'Getting Started', href: '/' },
@@ -11,8 +10,6 @@ const navigation = [
 ];
 
 export function Navigation() {
-    const pathname = usePathname();
-
     return (
         <nav className="main-nav">
             <div className="nav-container">
@@ -22,21 +19,18 @@ export function Navigation() {
                     </Link>
                 </div>
                 <div className="nav-links">
-                    {navigation.map((item) => {
-                        const isActive = pathname === item.href;
-                        return (
-                            <Link
-                                key={item.href}
-                                href={item.href}
-                                className={`nav-link ${isActive ? 'active' : ''}`}
-                            >
-                                {item.name}
-                            </Link>
-                        );
-                    })}
+                    {navigation.map((item) => (
+                        <Link
+                            key={item.href}
+                            href={item.href}
+                            className="nav-link"
+                        >
+                            {item.name}
+                        </Link>
+                    ))}
                 </div>
                 <a
-                    href="https://github.com/yourusername/virtual-keyboard-lib"
+                    href="https://github.com/kalpesh442266/virtual-keyboard-lib"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="github-link"

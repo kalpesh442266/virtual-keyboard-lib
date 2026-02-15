@@ -3,6 +3,7 @@ node_modules/
 .next/
 # Build output
 dist/
+demo/out/
 
 # IDE
 .idea/
