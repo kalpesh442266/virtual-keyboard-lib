@@ -25,6 +25,7 @@ export {
   validateFocusInputs,
   createCaretManager,
   setupHardwareKeyboard,
+  themeToCssVars,
 } from './utils';
 
 // Constant exports

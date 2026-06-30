@@ -1,0 +1,168 @@
+@use './tokens' as t;
+
+// Page shell shared by every docs/demo page
+.layout {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 40px 24px 120px;
+}
+
+.header {
+  margin-bottom: 48px;
+}
+
+.title {
+  font-size: 48px;
+  margin: 0 0 16px;
+  background: t.$brand-gradient;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+// Page-level subtitle — extra breathing room below it
+.subtitle {
+  font-size: 20px;
+  color: t.$text-muted;
+  margin: 0 0 32px;
+}
+
+.section {
+  margin-bottom: 48px;
+}
+
+.sectionTitle {
+  font-size: 32px;
+  margin: 0 0 16px;
+  color: t.$text;
+}
+
+.subheading {
+  font-size: 24px;
+  margin: 32px 0 16px;
+  color: t.$text-soft;
+}
+
+// Section subtitle / helper line — margin below to separate from content
+.helper {
+  margin: 10px 0 20px;
+  color: t.$text-muted;
+}
+
+// Code blocks
+.codeBlock {
+  @include t.card;
+  padding: 20px;
+  margin: 16px 0;
+  overflow-x: auto;
+
+  code {
+    font-family: 'Monaco', 'Menlo', monospace;
+    font-size: 14px;
+    line-height: 1.6;
+    color: t.$text;
+    white-space: pre-wrap;
+  }
+}
+
+// API reference tables
+.apiTable {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 24px 0;
+  @include t.card;
+  overflow: hidden;
+
+  th {
+    background: t.$border;
+    padding: 12px 16px;
+    text-align: left;
+    color: t.$text-soft;
+    font-weight: 600;
+    font-size: 14px;
+  }
+
+  td {
+    padding: 12px 16px;
+    border-top: 1px solid t.$border;
+    color: t.$text-muted;
+    font-size: 14px;
+  }
+
+  code {
+    background: t.$border;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-family: 'Monaco', 'Menlo', monospace;
+    font-size: 13px;
+    color: t.$accent;
+  }
+}
+
+// Generic surface card + responsive card grid
+.card {
+  @include t.card;
+  padding: 24px;
+}
+
+.cardGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: t.$gap;
+  margin: 24px 0;
+}
+
+.linkCard {
+  @include t.card;
+  padding: 24px;
+  text-decoration: none;
+  color: inherit;
+  transition: all 200ms ease;
+
+  &:hover {
+    border-color: t.$accent;
+    transform: translateY(-2px);
+  }
+}
+
+// Primary action button
+.button {
+  padding: 12px 24px;
+  background: t.$accent;
+  color: t.$bg;
+  border: none;
+  border-radius: t.$radius-sm;
+  font-weight: 600;
+  cursor: pointer;
+  transition: filter 160ms ease;
+
+  &:hover {
+    filter: brightness(1.08);
+  }
+}
+
+// Demo input
+.demoInput {
+  input {
+    width: 100%;
+    max-width: 520px;
+    padding: 14px 16px;
+    font-size: 18px;
+    border-radius: t.$radius-md;
+    border: 2px solid t.$border;
+    background: t.$surface;
+    color: t.$text;
+    outline: none;
+    transition: border-color 160ms ease, box-shadow 160ms ease;
+
+    &:focus {
+      @include t.focus-ring;
+    }
+  }
+}
+
+// Demo panel wrapper used by examples
+.panel {
+  @include t.card;
+  padding: 24px;
+}

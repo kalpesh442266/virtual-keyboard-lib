@@ -1,0 +1,25 @@
+@use '../styles/tokens' as t;
+
+.field {
+  input {
+    width: 100%;
+    max-width: 520px;
+    padding: 14px 16px;
+    font-size: 18px;
+    border-radius: t.$radius-md;
+    border: 2px solid t.$border;
+    background: t.$surface;
+    color: t.$text;
+    outline: none;
+    transition: border-color 160ms ease, box-shadow 160ms ease;
+
+    &:focus {
+      @include t.focus-ring;
+    }
+  }
+}
+
+.helper {
+  margin: 10px 0 20px;
+  color: t.$text-muted;
+}

@@ -1,0 +1,117 @@
+@use '../styles/tokens' as t;
+
+.nav {
+  background: rgba(15, 23, 42, 0.95);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid t.$border;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  height: 64px;
+}
+
+.brand {
+  font-size: 20px;
+  font-weight: 700;
+  color: t.$text;
+
+  a {
+    color: inherit;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+}
+
+.links {
+  display: flex;
+  gap: 4px;
+}
+
+.link {
+  padding: 8px 16px;
+  border-radius: t.$radius-sm;
+  color: t.$text-muted;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 15px;
+  transition: all 200ms ease;
+
+  &:hover {
+    color: t.$text-soft;
+    background: rgba(56, 189, 248, 0.1);
+  }
+
+  &.active {
+    color: t.$accent;
+    background: rgba(56, 189, 248, 0.15);
+  }
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.actionBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  text-decoration: none;
+  border-radius: t.$radius-sm;
+  font-weight: 600;
+  font-size: 14px;
+  transition: all 200ms ease;
+}
+
+.icon {
+  display: block;
+  flex-shrink: 0;
+}
+
+.github {
+  background: t.$border;
+  color: t.$text;
+
+  &:hover {
+    background: t.$border-strong;
+  }
+}
+
+.npm {
+  background: #cb3837;
+  color: #ffffff;
+
+  &:hover {
+    filter: brightness(1.1);
+  }
+}
+
+.coffee {
+  background: t.$coffee;
+  color: t.$coffee-text;
+
+  &:hover {
+    filter: brightness(1.05);
+  }
+}
+
+// Collapse text-only links on small screens, keep action buttons
+@media (max-width: 760px) {
+  .links {
+    display: none;
+  }
+}

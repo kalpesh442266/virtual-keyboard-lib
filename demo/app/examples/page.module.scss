@@ -1,0 +1,26 @@
+@use '../styles/tokens' as t;
+
+.example {
+  @include t.card;
+  padding: 24px;
+}
+
+.inputWrap {
+  margin-bottom: 16px;
+}
+
+.langStatus {
+  margin-top: 8px;
+  color: t.$text-muted;
+  font-size: 14px;
+}
+
+.errorMsg {
+  color: t.$danger;
+  margin-top: 8px;
+  font-size: 14px;
+}
+
+.codeSpacer {
+  margin-top: 24px;
+}

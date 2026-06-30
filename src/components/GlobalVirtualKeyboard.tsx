@@ -1,9 +1,35 @@
 import { useEffect, useRef, useState, type FC } from 'react';
 import { VirtualKeyboard } from './VirtualKeyboard';
+import type { VirtualKeyboardProps } from '../types';
 import { onEnterClickUtil, validateFocusInputs } from '../utils/keyboard-helpers';
 import { useKeyboardScroll } from '../hooks/useKeyboardScroll';
 
-export interface GlobalVirtualKeyboardProps {
+/**
+ * Customization props that GlobalVirtualKeyboard forwards to the underlying
+ * VirtualKeyboard, so the auto-attaching keyboard supports the same theming,
+ * key customization and behavior options.
+ */
+type ForwardedKeyboardProps = Pick<
+  VirtualKeyboardProps,
+  | 'theme'
+  | 'defaultLayout'
+  | 'customLayouts'
+  | 'validate'
+  | 'syncWithHardwareKeyboard'
+  | 'continuousPressConfig'
+  | 'keyLabels'
+  | 'hiddenKeys'
+  | 'disabledKeys'
+  | 'renderKey'
+  | 'renderSpecialKey'
+  | 'languages'
+  | 'currentLanguage'
+  | 'onLanguageChange'
+  | 'showLanguageSwitcher'
+  | 'scrollConfig'
+>;
+
+export interface GlobalVirtualKeyboardProps extends ForwardedKeyboardProps {
   /**
    * Whether the virtual keyboard is enabled.
    * When false, the keyboard will not appear on input focus.
@@ -72,6 +98,8 @@ export const GlobalVirtualKeyboard: FC<GlobalVirtualKeyboardProps> = ({
   onVisibilityChange,
   onEnterClick,
   onChange,
+  scrollConfig,
+  ...forwardedProps
 }) => {
   const keyboardContainerRef = useRef<HTMLSpanElement | null>(null);
   const [isVisible, setIsVisible] = useState(false);
@@ -124,8 +152,10 @@ export const GlobalVirtualKeyboard: FC<GlobalVirtualKeyboardProps> = ({
         }
       }
 
-      // Scroll input into view after keyboard is shown
-      scrollInput(input);
+      // Scroll input into view after keyboard is shown (opt-out via scrollConfig)
+      if (scrollConfig?.enabled !== false) {
+        scrollInput(input, scrollConfig?.offset);
+      }
     };
 
     const handleBlur = (event: Event) => {
@@ -156,7 +186,7 @@ export const GlobalVirtualKeyboard: FC<GlobalVirtualKeyboardProps> = ({
       document.removeEventListener('focusin', handleFocus, true);
       document.removeEventListener('focusout', handleBlur, true);
     };
-  }, [enabled, scrollInput, resetScroll, onVisibilityChange]);
+  }, [enabled, scrollInput, resetScroll, onVisibilityChange, scrollConfig?.enabled, scrollConfig?.offset]);
 
   const handleEnterClick = () => {
     setIsVisible(false);
@@ -181,6 +211,10 @@ export const GlobalVirtualKeyboard: FC<GlobalVirtualKeyboardProps> = ({
         onEnterClick={handleEnterClick}
         onChange={onChange}
         className={className}
+        // GlobalVirtualKeyboard manages scrolling itself, so disable the
+        // inner keyboard's built-in scroll to avoid conflicting transforms.
+        scrollConfig={{ enabled: false }}
+        {...forwardedProps}
       />
     </span>
   );

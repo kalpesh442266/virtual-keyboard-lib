@@ -4,34 +4,36 @@ import { useState, useRef } from 'react';
 // @ts-ignore
 import { VirtualKeyboard } from 'reactjs-virtual-keyboard';
 import 'reactjs-virtual-keyboard/styles.css';
+import docs from '../styles/docs.module.scss';
+import styles from './page.module.scss';
 
 export default function ExamplesPage() {
     return (
-        <div className="docs-layout">
-            <div className="docs-header">
-                <h1>Examples</h1>
-                <p>Real-world usage patterns and common scenarios</p>
+        <div className={docs.layout}>
+            <div className={docs.header}>
+                <h1 className={docs.title}>Examples</h1>
+                <p className={docs.subtitle}>Real-world usage patterns and common scenarios</p>
             </div>
 
             {/* Example 1: Multi-Language Support */}
             <section>
                 <h2>🌍 Multi-Language Keyboard</h2>
-                <p className="helper">Support multiple languages with custom keyboard layouts and built-in language switcher.</p>
+                <p className={docs.helper}>Support multiple languages with custom keyboard layouts and built-in language switcher.</p>
                 <MultiLanguageExample />
             </section>
 
             {/* Example 2: Form Validation */}
             <section>
                 <h2>✅ Form Validation</h2>
-                <p className="helper">Use custom validation to restrict valid input values.</p>
+                <p className={docs.helper}>Use custom validation to restrict valid input values.</p>
                 <EmailExample />
             </section>
 
             {/* Example 3: Custom Key Labels */}
             <section>
                 <h2>🏷️ Custom Key Labels</h2>
-                <p className="helper">Customize key labels for specific use cases (e.g., "Submit" instead of "Enter").</p>
-                <div className="code-block">
+                <p className={docs.helper}>Customize key labels for specific use cases (e.g., "Submit" instead of "Enter").</p>
+                <div className={docs.codeBlock}>
                     <code>{`<VirtualKeyboard
   {...props}
   keyLabels={{
@@ -46,8 +48,8 @@ export default function ExamplesPage() {
             {/* Example 4: Hidden Keys */}
             <section>
                 <h2>👁️ Hiding Specific Keys</h2>
-                <p className="helper">Hide keys that aren't needed for your use case.</p>
-                <div className="code-block">
+                <p className={docs.helper}>Hide keys that aren't needed for your use case.</p>
+                <div className={docs.codeBlock}>
                     <code>{`<VirtualKeyboard
   {...props}
   hiddenKeys={['capslock', '@', '#']}
@@ -58,8 +60,8 @@ export default function ExamplesPage() {
             {/* Example 5: Custom Theme */}
             <section>
                 <h2>🎨 Custom Theme</h2>
-                <p className="helper">Create a custom theme to match your app's design.</p>
-                <div className="code-block">
+                <p className={docs.helper}>Create a custom theme to match your app's design.</p>
+                <div className={docs.codeBlock}>
                     <code>{`const neonTheme = {
   backgroundColor: '#0a0a0a',
   keyColor: '#1a1a2e',
@@ -79,8 +81,8 @@ export default function ExamplesPage() {
             {/* Example 6: Disable Hardware Sync */}
             <section>
                 <h2>⌨️ Disable Hardware Keyboard Sync</h2>
-                <p className="helper">Prevent virtual keyboard from syncing with physical keyboard.</p>
-                <div className="code-block">
+                <p className={docs.helper}>Prevent virtual keyboard from syncing with physical keyboard.</p>
+                <div className={docs.codeBlock}>
                     <code>{`<VirtualKeyboard
   syncWithHardwareKeyboard={false}
   {...props}
@@ -91,8 +93,8 @@ export default function ExamplesPage() {
             {/* Example 7: Continuous Press */}
             <section>
                 <h2>⏱️ Adjust Continuous Press Timing</h2>
-                <p className="helper">Make backspace repeat faster or slower when held down.</p>
-                <div className="code-block">
+                <p className={docs.helper}>Make backspace repeat faster or slower when held down.</p>
+                <div className={docs.codeBlock}>
                     <code>{`<VirtualKeyboard
   continuousPressConfig={{
     initialDelay: 300,  // Start repeating after 300ms
@@ -131,15 +133,6 @@ function MultiLanguageExample() {
                 ['á', 'é', 'í', 'ó', 'ú', 'ü'],
             ],
         },
-        fr: {
-            label: '🇫🇷 Français',
-            letters: [
-                ['a', 'z', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p'],
-                ['q', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 'm'],
-                ['w', 'x', 'c', 'v', 'b', 'n'],
-                ['à', 'â', 'é', 'è', 'ê', 'ë', 'î', 'ï', 'ô', 'ù', 'û', 'ü', 'ç'],
-            ],
-        },
         de: {
             label: '🇩🇪 Deutsch',
             letters: [
@@ -151,8 +144,8 @@ function MultiLanguageExample() {
     };
 
     return (
-        <div style={{ background: '#0b1220', padding: '24px', borderRadius: '12px', border: '1px solid #1f2937' }}>
-            <div className="demo-input" style={{ marginBottom: '16px' }}>
+        <div className={styles.example}>
+            <div className={`${docs.demoInput} ${styles.inputWrap}`}>
                 <input
                     ref={inputRef}
                     type="text"
@@ -162,7 +155,7 @@ function MultiLanguageExample() {
                     onBlur={() => setIsInputFocused(false)}
                     placeholder="Type in any language..."
                 />
-                <div style={{ marginTop: '8px', color: '#94a3b8', fontSize: '14px' }}>
+                <div className={styles.langStatus}>
                     Current language: <strong>{multiLanguageLayouts[currentLang as keyof typeof multiLanguageLayouts]?.label}</strong>
                 </div>
             </div>
@@ -179,7 +172,7 @@ function MultiLanguageExample() {
                 />
             )}
 
-            <div style={{ marginTop: '24px' }} className="code-block">
+            <div className={`${docs.codeBlock} ${styles.codeSpacer}`}>
                 <code>{`const languages = {
   en: {
     label: '🇺🇸 English',
@@ -218,8 +211,8 @@ function EmailExample() {
     };
 
     return (
-        <div style={{ background: '#0b1220', padding: '24px', borderRadius: '12px', border: '1px solid #1f2937' }}>
-            <div className="demo-input" style={{ marginBottom: '16px' }}>
+        <div className={styles.example}>
+            <div className={`${docs.demoInput} ${styles.inputWrap}`}>
                 <input
                     ref={inputRef}
                     type="email"
@@ -232,7 +225,7 @@ function EmailExample() {
                     onBlur={() => setIsInputFocused(false)}
                     placeholder="Enter your email"
                 />
-                {error && <div style={{ color: '#ef4444', marginTop: '8px', fontSize: '14px' }}>{error}</div>}
+                {error && <div className={styles.errorMsg}>{error}</div>}
             </div>
 
             {isInputFocused && (
@@ -245,7 +238,7 @@ function EmailExample() {
                 />
             )}
 
-            <div style={{ marginTop: '24px' }} className="code-block">
+            <div className={`${docs.codeBlock} ${styles.codeSpacer}`}>
                 <code>{`const validateEmail = (value: string) => {
   const emailRegex = /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/;
   setError(emailRegex.test(value) ? '' : 'Invalid');

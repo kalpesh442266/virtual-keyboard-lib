@@ -6,6 +6,7 @@ import { GlobalVirtualKeyboard } from 'reactjs-virtual-keyboard';
 import { ControlPanel } from './ControlPanel';
 import { InputField } from './InputField';
 import { InputType } from '../types';
+import docs from '../styles/docs.module.scss';
 
 export function GlobalKeyboardDemo() {
   const inputRef = useRef<HTMLInputElement>(null);
@@ -20,7 +21,7 @@ export function GlobalKeyboardDemo() {
   return (
     <section>
       <h2>GlobalVirtualKeyboard (auto attach)</h2>
-      <p className="helper">Add once at app root — it appears whenever any input is focused.</p>
+      <p className={docs.helper}>Add once at app root — it appears whenever any input is focused.</p>
       <ControlPanel
         inputType={inputType}
         theme={theme}

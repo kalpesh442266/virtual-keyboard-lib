@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { Navigation } from './components/Navigation';
-import './globals.css';
+import './globals.scss';
 
 export const metadata: Metadata = {
   title: 'React Virtual Keyboard',

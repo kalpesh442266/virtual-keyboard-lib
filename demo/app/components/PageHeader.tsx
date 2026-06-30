@@ -1,5 +1,7 @@
 'use client';
 
+import styles from './PageHeader.module.scss';
+
 type PageHeaderProps = {
   title: string;
   subtitle: string;
@@ -7,10 +9,9 @@ type PageHeaderProps = {
 
 export function PageHeader({ title, subtitle }: PageHeaderProps) {
   return (
-    <header>
-      <h1>{title}</h1>
-      <p>{subtitle}</p>
+    <header className={styles.header}>
+      <h1 className={styles.title}>{title}</h1>
+      <p className={styles.subtitle}>{subtitle}</p>
     </header>
   );
 }
-

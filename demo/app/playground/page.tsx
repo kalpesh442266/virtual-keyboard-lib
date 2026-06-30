@@ -4,6 +4,10 @@ import { useRef, useState } from 'react';
 // @ts-ignore
 import { VirtualKeyboard } from 'reactjs-virtual-keyboard';
 import 'reactjs-virtual-keyboard/styles.css';
+import docs from '../styles/docs.module.scss';
+import styles from './page.module.scss';
+
+const HIDEABLE_KEYS = ['capslock', 'space', 'enter', 'backspace'];
 
 export default function PlaygroundPage() {
     const inputRef = useRef<HTMLInputElement>(null);
@@ -29,17 +33,43 @@ export default function PlaygroundPage() {
     const [bgColor, setBgColor] = useState('#1a1a1a');
     const [keyColor, setKeyColor] = useState('#2d2d2d');
     const [keyTextColor, setKeyTextColor] = useState('#ffffff');
+    const [keyActiveColor, setKeyActiveColor] = useState('#666666');
+    const [keyHoverColor, setKeyHoverColor] = useState('#555555');
+    const [activeStateColor, setActiveStateColor] = useState('#4a90e2');
+    const [keyBorderRadius, setKeyBorderRadius] = useState(8);
+    const [keyHeight, setKeyHeight] = useState(48);
 
     const theme = {
         backgroundColor: bgColor,
-        keyColor: keyColor,
-        keyTextColor: keyTextColor,
+        keyColor,
+        keyTextColor,
+        keyActiveColor,
+        keyHoverColor,
+        activeStateColor,
+        keyBorderRadius: `${keyBorderRadius}px`,
+        keyHeight: `${keyHeight}px`,
     };
 
     const keyLabels = {
         ...(keyLabelsEnter !== 'Enter' && { enter: keyLabelsEnter }),
         ...(keyLabelsSpace !== 'Space' && { space: keyLabelsSpace }),
     };
+
+    const toggleHiddenKey = (key: string) => {
+        setHiddenKeys((prev) =>
+            prev.includes(key) ? prev.filter((k) => k !== key) : [...prev, key]
+        );
+    };
+
+    const themeChanged =
+        bgColor !== '#1a1a1a' ||
+        keyColor !== '#2d2d2d' ||
+        keyTextColor !== '#ffffff' ||
+        keyActiveColor !== '#666666' ||
+        keyHoverColor !== '#555555' ||
+        activeStateColor !== '#4a90e2' ||
+        keyBorderRadius !== 8 ||
+        keyHeight !== 48;
 
     const generateCode = () => {
         const props = [];
@@ -59,7 +89,7 @@ export default function PlaygroundPage() {
         if (hiddenKeys.length > 0) {
             props.push(`hiddenKeys={${JSON.stringify(hiddenKeys)}}`);
         }
-        if (bgColor !== '#1a1a1a' || keyColor !== '#2d2d2d' || keyTextColor !== '#ffffff') {
+        if (themeChanged) {
             props.push(`theme={${JSON.stringify(theme, null, 2)}}`);
         }
 
@@ -71,32 +101,32 @@ export default function PlaygroundPage() {
     };
 
     return (
-        <div className="docs-layout">
-            <div className="docs-header">
-                <h1>Interactive Playground</h1>
-                <p>Customize all props and see changes in real-time</p>
+        <div className={docs.layout}>
+            <div className={docs.header}>
+                <h1 className={docs.title}>Interactive Playground</h1>
+                <p className={docs.subtitle}>Customize all props and see changes in real-time</p>
             </div>
 
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '32px' }}>
+            <div className={styles.grid}>
                 {/* Controls Panel */}
                 <div>
                     <section>
                         <h2>Configuration</h2>
 
                         {/* Layout Props */}
-                        <div style={{ marginBottom: '32px' }}>
+                        <div className={styles.group}>
                             <h3>Layout & Type</h3>
-                            <div className="control" style={{ marginBottom: '16px' }}>
+                            <div className={styles.control}>
                                 <label>Input Type</label>
                                 <select value={inputType} onChange={(e) => setInputType(e.target.value)}>
                                     <option value="text">text</option>
                                     <option value="email">email</option>
                                     <option value="number">number</option>
-                                    <option value="tel">tel</option>
-                                    <option value="url">url</option>
+                                    {/* <option value="tel">tel</option>
+                                    <option value="url">url</option> */}
                                 </select>
                             </div>
-                            <div className="control">
+                            <div className={styles.control}>
                                 <label>Default Layout</label>
                                 <select value={defaultLayout} onChange={(e) => setDefaultLayout(e.target.value as any)}>
                                     <option value="letters">letters</option>
@@ -107,10 +137,10 @@ export default function PlaygroundPage() {
                         </div>
 
                         {/* Behavior Props */}
-                        <div style={{ marginBottom: '32px' }}>
+                        <div className={styles.group}>
                             <h3>Behavior</h3>
-                            <div className="control" style={{ marginBottom: '16px' }}>
-                                <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
+                            <div className={styles.control}>
+                                <label className={styles.checkboxLabel}>
                                     <input
                                         type="checkbox"
                                         checked={syncHardware}
@@ -119,7 +149,7 @@ export default function PlaygroundPage() {
                                     Sync with Hardware Keyboard
                                 </label>
                             </div>
-                            <div className="control" style={{ marginBottom: '16px' }}>
+                            <div className={styles.control}>
                                 <label>Continuous Press Initial Delay: {initialDelay}ms</label>
                                 <input
                                     type="range"
@@ -128,10 +158,10 @@ export default function PlaygroundPage() {
                                     step="50"
                                     value={initialDelay}
                                     onChange={(e) => setInitialDelay(Number(e.target.value))}
-                                    style={{ width: '100%' }}
+                                    className={styles.range}
                                 />
                             </div>
-                            <div className="control" style={{ marginBottom: '16px' }}>
+                            <div className={styles.control}>
                                 <label>Continuous Press Interval: {interval}ms</label>
                                 <input
                                     type="range"
@@ -140,11 +170,11 @@ export default function PlaygroundPage() {
                                     step="10"
                                     value={interval}
                                     onChange={(e) => setInterval(Number(e.target.value))}
-                                    style={{ width: '100%' }}
+                                    className={styles.range}
                                 />
                             </div>
-                            <div className="control" style={{ marginBottom: '16px' }}>
-                                <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
+                            <div className={styles.control}>
+                                <label className={styles.checkboxLabel}>
                                     <input
                                         type="checkbox"
                                         checked={scrollEnabled}
@@ -154,7 +184,7 @@ export default function PlaygroundPage() {
                                 </label>
                             </div>
                             {scrollEnabled && (
-                                <div className="control">
+                                <div className={styles.control}>
                                     <label>Scroll Offset: {scrollOffset}px</label>
                                     <input
                                         type="range"
@@ -163,63 +193,101 @@ export default function PlaygroundPage() {
                                         step="10"
                                         value={scrollOffset}
                                         onChange={(e) => setScrollOffset(Number(e.target.value))}
-                                        style={{ width: '100%' }}
+                                        className={styles.range}
                                     />
                                 </div>
                             )}
                         </div>
 
                         {/* Key Customization */}
-                        <div style={{ marginBottom: '32px' }}>
+                        <div className={styles.group}>
                             <h3>Key Labels</h3>
-                            <div className="control" style={{ marginBottom: '16px' }}>
+                            <div className={styles.control}>
                                 <label>Enter Key Label</label>
                                 <input
                                     type="text"
                                     value={keyLabelsEnter}
                                     onChange={(e) => setKeyLabelsEnter(e.target.value)}
-                                    style={{ width: '100%', padding: '8px', background: '#0b1220', border: '1px solid #1f2937', borderRadius: '8px', color: '#e2e8f0' }}
+                                    className={styles.textInput}
                                 />
                             </div>
-                            <div className="control">
+                            <div className={styles.control}>
                                 <label>Space Key Label</label>
                                 <input
                                     type="text"
                                     value={keyLabelsSpace}
                                     onChange={(e) => setKeyLabelsSpace(e.target.value)}
-                                    style={{ width: '100%', padding: '8px', background: '#0b1220', border: '1px solid #1f2937', borderRadius: '8px', color: '#e2e8f0' }}
+                                    className={styles.textInput}
                                 />
                             </div>
                         </div>
 
+                        {/* Hidden Keys */}
+                        <div className={styles.group}>
+                            <h3>Hidden Keys</h3>
+                            <div className={styles.chipRow}>
+                                {HIDEABLE_KEYS.map((key) => (
+                                    <button
+                                        key={key}
+                                        type="button"
+                                        className={`${styles.chip} ${hiddenKeys.includes(key) ? styles.active : ''}`}
+                                        onClick={() => toggleHiddenKey(key)}
+                                    >
+                                        {hiddenKeys.includes(key) ? '🙈' : '👁️'} {key}
+                                    </button>
+                                ))}
+                            </div>
+                        </div>
+
                         {/* Theme */}
-                        <div>
+                        <div className={styles.group}>
                             <h3>Theme</h3>
-                            <div className="control" style={{ marginBottom: '16px' }}>
+                            <div className={styles.control}>
                                 <label>Background Color</label>
-                                <input
-                                    type="color"
-                                    value={bgColor}
-                                    onChange={(e) => setBgColor(e.target.value)}
-                                    style={{ width: '100%', height: '40px', cursor: 'pointer' }}
-                                />
+                                <input type="color" value={bgColor} onChange={(e) => setBgColor(e.target.value)} className={styles.color} />
                             </div>
-                            <div className="control" style={{ marginBottom: '16px' }}>
+                            <div className={styles.control}>
                                 <label>Key Color</label>
+                                <input type="color" value={keyColor} onChange={(e) => setKeyColor(e.target.value)} className={styles.color} />
+                            </div>
+                            <div className={styles.control}>
+                                <label>Key Text Color</label>
+                                <input type="color" value={keyTextColor} onChange={(e) => setKeyTextColor(e.target.value)} className={styles.color} />
+                            </div>
+                            <div className={styles.control}>
+                                <label>Key Active Color</label>
+                                <input type="color" value={keyActiveColor} onChange={(e) => setKeyActiveColor(e.target.value)} className={styles.color} />
+                            </div>
+                            <div className={styles.control}>
+                                <label>Key Hover Color</label>
+                                <input type="color" value={keyHoverColor} onChange={(e) => setKeyHoverColor(e.target.value)} className={styles.color} />
+                            </div>
+                            <div className={styles.control}>
+                                <label>Active State Color (Caps Lock on)</label>
+                                <input type="color" value={activeStateColor} onChange={(e) => setActiveStateColor(e.target.value)} className={styles.color} />
+                            </div>
+                            <div className={styles.control}>
+                                <label>Key Border Radius: {keyBorderRadius}px</label>
                                 <input
-                                    type="color"
-                                    value={keyColor}
-                                    onChange={(e) => setKeyColor(e.target.value)}
-                                    style={{ width: '100%', height: '40px', cursor: 'pointer' }}
+                                    type="range"
+                                    min="0"
+                                    max="24"
+                                    step="1"
+                                    value={keyBorderRadius}
+                                    onChange={(e) => setKeyBorderRadius(Number(e.target.value))}
+                                    className={styles.range}
                                 />
                             </div>
-                            <div className="control">
-                                <label>Key Text Color</label>
+                            <div className={styles.control}>
+                                <label>Key Height: {keyHeight}px</label>
                                 <input
-                                    type="color"
-                                    value={keyTextColor}
-                                    onChange={(e) => setKeyTextColor(e.target.value)}
-                                    style={{ width: '100%', height: '40px', cursor: 'pointer' }}
+                                    type="range"
+                                    min="32"
+                                    max="80"
+                                    step="2"
+                                    value={keyHeight}
+                                    onChange={(e) => setKeyHeight(Number(e.target.value))}
+                                    className={styles.range}
                                 />
                             </div>
                         </div>
@@ -230,7 +298,7 @@ export default function PlaygroundPage() {
                 <div>
                     <section>
                         <h2>Live Preview</h2>
-                        <div className="demo-input" style={{ marginBottom: '24px' }}>
+                        <div className={docs.demoInput}>
                             <input
                                 ref={inputRef}
                                 type={inputType}
@@ -258,21 +326,13 @@ export default function PlaygroundPage() {
 
                     <section>
                         <h2>Generated Code</h2>
-                        <div className="code-block">
-                            <code style={{ whiteSpace: 'pre-wrap' }}>{generateCode()}</code>
+                        <div className={docs.codeBlock}>
+                            <code>{generateCode()}</code>
                         </div>
                         <button
+                            type="button"
                             onClick={() => navigator.clipboard.writeText(generateCode())}
-                            style={{
-                                padding: '12px 24px',
-                                background: '#38bdf8',
-                                color: '#0f172a',
-                                border: 'none',
-                                borderRadius: '8px',
-                                fontWeight: '600',
-                                cursor: 'pointer',
-                                marginTop: '16px'
-                            }}
+                            className={`${docs.button} ${styles.copyButton}`}
                         >
                             Copy Code
                         </button>

@@ -1,20 +1,22 @@
 'use client';
 
+import docs from '../styles/docs.module.scss';
+
 export default function APIReferencePage() {
     return (
-        <div className="docs-layout">
-            <div className="docs-header">
-                <h1>API Reference</h1>
-                <p>Complete documentation of all components, props, hooks, and utilities</p>
+        <div className={docs.layout}>
+            <div className={docs.header}>
+                <h1 className={docs.title}>API Reference</h1>
+                <p className={docs.subtitle}>Complete documentation of all components, props, hooks, and utilities</p>
             </div>
 
             {/* VirtualKeyboard */}
             <section id="virtual-keyboard">
                 <h2>VirtualKeyboard</h2>
-                <p className="helper">The main keyboard component with extensive customization options.</p>
+                <p className={docs.helper}>The main keyboard component with extensive customization options.</p>
 
                 <h3>Required Props</h3>
-                <table className="api-table">
+                <table className={docs.apiTable}>
                     <thead>
                         <tr>
                             <th>Prop</th>
@@ -37,7 +39,7 @@ export default function APIReferencePage() {
                 </table>
 
                 <h3>Layout & Type Props</h3>
-                <table className="api-table">
+                <table className={docs.apiTable}>
                     <thead>
                         <tr>
                             <th>Prop</th>
@@ -69,7 +71,7 @@ export default function APIReferencePage() {
                 </table>
 
                 <h3>Callback Props</h3>
-                <table className="api-table">
+                <table className={docs.apiTable}>
                     <thead>
                         <tr>
                             <th>Prop</th>
@@ -97,7 +99,7 @@ export default function APIReferencePage() {
                 </table>
 
                 <h3>Customization Props</h3>
-                <table className="api-table">
+                <table className={docs.apiTable}>
                     <thead>
                         <tr>
                             <th>Prop</th>
@@ -141,7 +143,7 @@ export default function APIReferencePage() {
                 </table>
 
                 <h3>Behavior Props</h3>
-                <table className="api-table">
+                <table className={docs.apiTable}>
                     <thead>
                         <tr>
                             <th>Prop</th>
@@ -173,7 +175,7 @@ export default function APIReferencePage() {
                 </table>
 
                 <h3>Theming Props</h3>
-                <table className="api-table">
+                <table className={docs.apiTable}>
                     <thead>
                         <tr>
                             <th>Prop</th>
@@ -199,9 +201,9 @@ export default function APIReferencePage() {
             {/* GlobalVirtualKeyboard */}
             <section id="global-virtual-keyboard">
                 <h2>GlobalVirtualKeyboard</h2>
-                <p className="helper">Automatically shows keyboard when any input is focused.</p>
+                <p className={docs.helper}>Automatically shows keyboard when any input is focused.</p>
 
-                <table className="api-table">
+                <table className={docs.apiTable}>
                     <thead>
                         <tr>
                             <th>Prop</th>
@@ -248,9 +250,9 @@ export default function APIReferencePage() {
             {/* Theme Type */}
             <section id="theme-type">
                 <h2>VirtualKeyboardTheme</h2>
-                <p className="helper">Theme configuration object for customizing keyboard appearance.</p>
+                <p className={docs.helper}>Theme configuration object for customizing keyboard appearance.</p>
 
-                <table className="api-table">
+                <table className={docs.apiTable}>
                     <thead>
                         <tr>
                             <th>Property</th>
@@ -311,10 +313,10 @@ export default function APIReferencePage() {
             {/* Utility Functions */}
             <section id="utilities">
                 <h2>Utility Functions</h2>
-                <p className="helper">Pure functions exported for advanced usage.</p>
+                <p className={docs.helper}>Pure functions exported for advanced usage.</p>
 
                 <h3>createCaretManager</h3>
-                <div className="code-block">
+                <div className={docs.codeBlock}>
                     <code>{`function createCaretManager(
   getInputRef: () => HTMLInputElement | HTMLTextAreaElement | null
 ): {
@@ -322,10 +324,10 @@ export default function APIReferencePage() {
   backspace: () => void;
 }`}</code>
                 </div>
-                <p className="helper">Creates a caret manager for manipulating text in input elements.</p>
+                <p className={docs.helper}>Creates a caret manager for manipulating text in input elements.</p>
 
                 <h3>setupHardwareKeyboard</h3>
-                <div className="code-block">
+                <div className={docs.codeBlock}>
                     <code>{`function setupHardwareKeyboard(handlers: {
   onBackspace: () => void;
   onEnter: () => void;
@@ -334,41 +336,43 @@ export default function APIReferencePage() {
   onKeyClick: (key: string) => void;
 }): () => void // Returns cleanup function`}</code>
                 </div>
-                <p className="helper">Sets up hardware keyboard event listeners. Returns cleanup function.</p>
+                <p className={docs.helper}>Sets up hardware keyboard event listeners. Returns cleanup function.</p>
             </section>
 
             {/* Hooks */}
             <section id="hooks">
                 <h2>Hooks</h2>
-                <p className="helper">React hooks for state management and effects.</p>
+                <p className={docs.helper}>React hooks for state management and effects.</p>
 
                 <h3>useContinuousPress</h3>
-                <div className="code-block">
+                <div className={docs.codeBlock}>
                     <code>{`function useContinuousPress(
-  callback: () => void,
+  onPress: () => void,
   options?: {
-    enableContinuousPress?: boolean;
-    delay?: number;
-    interval?: number;
+    initialDelay?: number;    // default 500
+    interval?: number;        // default 50
+    shouldPreventDefault?: boolean; // default true
   }
 ): {
-  handleMouseDown: () => void;
-  handleMouseUp: () => void;
-  handleMouseLeave: () => void;
+  onMouseDown: (e: React.MouseEvent) => void;
+  onTouchStart: (e: React.TouchEvent) => void;
+  onMouseUp: () => void;
+  onMouseLeave: () => void;
+  onTouchEnd: (e: React.TouchEvent) => void;
 }`}</code>
                 </div>
-                <p className="helper">Implements hold-to-repeat functionality (e.g., for backspace key).</p>
+                <p className={docs.helper}>Implements hold-to-repeat functionality (e.g., for backspace key). Spread the returned handlers onto a button.</p>
 
                 <h3>useKeyboardScroll</h3>
-                <div className="code-block">
+                <div className={docs.codeBlock}>
                     <code>{`function useKeyboardScroll(
-  keyboardRef: RefObject<HTMLElement>
+  keyboardContainerRef: RefObject<HTMLElement | null>
 ): {
-  scrollInput: (input: HTMLElement) => void;
+  scrollInput: (input: HTMLInputElement | HTMLTextAreaElement, offset?: number) => void;
   resetScroll: () => void;
 }`}</code>
                 </div>
-                <p className="helper">Manages scrolling input elements into view when keyboard appears.</p>
+                <p className={docs.helper}>Manages scrolling input elements into view when keyboard appears.</p>
             </section>
         </div>
     );

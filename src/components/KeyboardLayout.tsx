@@ -15,6 +15,12 @@ export const KeyboardLayout: FC<KeyboardLayoutProps> = ({
   onLayoutToggle,
   inputType,
   customLayouts,
+  keyLabels,
+  hiddenKeys,
+  disabledKeys,
+  renderKey,
+  renderSpecialKey,
+  continuousPressConfig,
 }) => {
   const currentLayoutData =
     currentLayout === 'letters'
@@ -22,6 +28,15 @@ export const KeyboardLayout: FC<KeyboardLayoutProps> = ({
       : currentLayout === 'symbols'
         ? (customLayouts?.symbols || SYMBOLS_LAYOUT)
         : (customLayouts?.numbers || NUMBERS_LAYOUT);
+
+  const customization = {
+    keyLabels,
+    hiddenKeys,
+    disabledKeys,
+    renderKey,
+    renderSpecialKey,
+    continuousPressConfig,
+  };
 
   // Numbers layout has a different structure (4x5 grid)
   if (currentLayout === 'numbers') {
@@ -33,6 +48,7 @@ export const KeyboardLayout: FC<KeyboardLayoutProps> = ({
         onKeyClick={onKeyClick}
         capsLock={capsLock}
         currentLayout={currentLayout}
+        {...customization}
       />
     );
   }
@@ -49,6 +65,7 @@ export const KeyboardLayout: FC<KeyboardLayoutProps> = ({
       onKeyClick={onKeyClick}
       capsLock={capsLock}
       currentLayout={currentLayout}
+      {...customization}
     />
   );
 };

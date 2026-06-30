@@ -1,6 +1,7 @@
 'use client';
 
 import { InputType } from '../types';
+import styles from './ControlPanel.module.scss';
 
 type ControlPanelProps = {
   inputType: InputType;
@@ -16,8 +17,8 @@ export function ControlPanel({
   onThemeChange
 }: ControlPanelProps) {
   return (
-    <section className="demo-controls">
-      <label className="control">
+    <section className={styles.controls}>
+      <label className={styles.control}>
         Input type
         <select value={inputType} onChange={(event) => onInputTypeChange(event.target.value as InputType)}>
           <option value="text">Text</option>
@@ -26,7 +27,7 @@ export function ControlPanel({
         </select>
       </label>
 
-      <label className="control">
+      <label className={styles.control}>
         Theme
         <select value={theme} onChange={(event) => onThemeChange(event.target.value)}>
           <option value="">Default (dark)</option>

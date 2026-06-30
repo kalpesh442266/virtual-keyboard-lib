@@ -3,7 +3,7 @@
  */
 
 const KEYBOARD_HEIGHT_VH = 38;
-const INPUT_PADDING = 20;
+const DEFAULT_INPUT_PADDING = 20;
 const TRANSITION_CLASS = 'vk-keyboard-shift-transition';
 const TRANSITION_DURATION = 300;
 
@@ -25,7 +25,7 @@ function injectStyles(): void {
   styleInjected = true;
 }
 
-function findContentElements(keyboardContainerRef: HTMLSpanElement | null): HTMLElement[] {
+function findContentElements(keyboardContainerRef: HTMLElement | null): HTMLElement[] {
   if (!keyboardContainerRef) return [];
   return Array.from(keyboardContainerRef.parentElement?.children ?? []).filter(
     (child): child is HTMLElement => {
@@ -36,21 +36,29 @@ function findContentElements(keyboardContainerRef: HTMLSpanElement | null): HTML
   );
 }
 
-function calculateShiftAmount(input: HTMLElement): number {
+function calculateShiftAmount(input: HTMLElement, padding: number): number {
   const inputBottom = input.getBoundingClientRect().bottom;
   const visibleHeight = window.innerHeight * (1 - KEYBOARD_HEIGHT_VH / 100);
-  const overflow = inputBottom + INPUT_PADDING - visibleHeight;
+  const overflow = inputBottom + padding - visibleHeight;
 
   return overflow > 0 ? overflow : 0;
 }
 
 /**
- * Scroll the input into view by shifting content elements up
+ * Scroll the input into view by shifting content elements up.
+ *
+ * @param input - The focused input/textarea to bring into view
+ * @param keyboardContainerRef - The keyboard wrapper element (its siblings are shifted)
+ * @param offset - Extra padding (px) kept between the input and the keyboard. Defaults to 20.
  */
-export function scrollInputIntoView(input: HTMLInputElement | HTMLTextAreaElement, keyboardContainerRef: HTMLSpanElement): void {
+export function scrollInputIntoView(
+  input: HTMLInputElement | HTMLTextAreaElement,
+  keyboardContainerRef: HTMLElement,
+  offset: number = DEFAULT_INPUT_PADDING
+): void {
   if (shiftedElements.length > 0) resetScrollPosition();
 
-  const shiftAmount = calculateShiftAmount(input);
+  const shiftAmount = calculateShiftAmount(input, offset);
   if (shiftAmount === 0) return;
 
   const contentElements = findContentElements(keyboardContainerRef);

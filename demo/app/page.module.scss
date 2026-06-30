@@ -1,0 +1,42 @@
+@use './styles/tokens' as t;
+
+.featureList {
+  font-size: 16px;
+  line-height: 2;
+  color: t.$text-soft;
+}
+
+.statValue {
+  font-size: 32px;
+  font-weight: 700;
+  color: t.$accent;
+}
+
+.statValueAlt {
+  color: t.$accent-2;
+}
+
+.statValueGreen {
+  color: t.$accent-3;
+}
+
+.statLabel {
+  color: t.$text-muted;
+  margin-top: 8px;
+}
+
+.cardIcon {
+  font-size: 24px;
+  margin-bottom: 8px;
+}
+
+.cardTitle {
+  margin: 0 0 8px;
+  color: t.$text;
+}
+
+.cardText {
+  margin: 0;
+  color: t.$text-muted;
+  font-size: 14px;
+}

@@ -2,8 +2,8 @@ import { useCallback, useEffect, RefObject } from 'react';
 import { scrollInputIntoView, resetScrollPosition } from '../utils/scrollUtils';
 
 export interface UseKeyboardScrollReturn {
-  /** Scroll the input into view when keyboard appears */
-  scrollInput: (input: HTMLInputElement | HTMLTextAreaElement) => void;
+  /** Scroll the input into view when keyboard appears (optional extra offset in px) */
+  scrollInput: (input: HTMLInputElement | HTMLTextAreaElement, offset?: number) => void;
   /** Reset scroll position when keyboard hides */
   resetScroll: () => void;
 }
@@ -27,10 +27,10 @@ export interface UseKeyboardScrollReturn {
  */
 export function useKeyboardScroll(keyboardContainerRef: RefObject<HTMLSpanElement | null>): UseKeyboardScrollReturn {
   // Scroll input into view when keyboard appears
-  const handleScrollInput = useCallback((input: HTMLInputElement | HTMLTextAreaElement) => {
+  const handleScrollInput = useCallback((input: HTMLInputElement | HTMLTextAreaElement, offset?: number) => {
     setTimeout(() => {
       if (!keyboardContainerRef?.current) return;
-      scrollInputIntoView(input, keyboardContainerRef.current);
+      scrollInputIntoView(input, keyboardContainerRef.current, offset);
     }, 0);
   }, [keyboardContainerRef]);
 

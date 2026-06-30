@@ -99,7 +99,26 @@ export interface VirtualKeyboardTheme {
   keyHeight?: string;
 }
 
-export interface KeyboardLayoutProps {
+/**
+ * Customization options shared by the keyboard layouts and forwarded to the
+ * individual key components. All optional and backward compatible.
+ */
+export interface KeyCustomization {
+  /** Custom labels for special keys keyed by type (e.g. { enter: 'Submit' }) */
+  keyLabels?: Record<string, string>;
+  /** Keys (or special-key identifiers) to hide from the keyboard */
+  hiddenKeys?: string[];
+  /** Keys (or special-key identifiers) to render disabled */
+  disabledKeys?: string[];
+  /** Custom render function for individual character keys */
+  renderKey?: (key: string, defaultRender: ReactNode) => ReactNode;
+  /** Custom render function for special keys */
+  renderSpecialKey?: (type: string, defaultRender: ReactNode) => ReactNode;
+  /** Continuous-press timing config for hold-to-repeat keys (backspace) */
+  continuousPressConfig?: ContinuousPressConfig;
+}
+
+export interface KeyboardLayoutProps extends KeyCustomization {
   currentLayout: LayoutType;
   capsLock: boolean;
   onKeyClick: (key: string) => void;
@@ -116,7 +135,7 @@ export interface KeyboardLayoutProps {
   };
 }
 
-export interface TextLayoutProps {
+export interface TextLayoutProps extends KeyCustomization {
   inputType?: HTMLInputTypeAttribute;
   currentLayoutData: ReadonlyArray<ReadonlyArray<string>> | string[][];
   onBackspace: () => void;
@@ -129,7 +148,7 @@ export interface TextLayoutProps {
   currentLayout: LayoutType;
 }
 
-export interface NumbersLayoutProps {
+export interface NumbersLayoutProps extends KeyCustomization {
   currentLayoutData: ReadonlyArray<ReadonlyArray<string>> | string[][];
   onBackspace: () => void;
   onEnter: () => void;
@@ -142,6 +161,8 @@ export interface VirtualKeyProps {
   keyValue: string;
   onClick: (key: string) => void;
   className?: string;
+  disabled?: boolean;
+  renderKey?: (key: string, defaultRender: ReactNode) => ReactNode;
 }
 
 export interface SpecialKeyProps {
@@ -152,6 +173,9 @@ export interface SpecialKeyProps {
   icon?: ReactNode;
   capsLock?: boolean;
   enableContinuousPress?: boolean;
+  disabled?: boolean;
+  continuousPressConfig?: ContinuousPressConfig;
+  renderSpecialKey?: (type: string, defaultRender: ReactNode) => ReactNode;
 }
 
 export interface KeyboardRowProps {

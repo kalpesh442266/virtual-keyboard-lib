@@ -28,5 +28,5 @@ export const DEFAULT_THEME = {
   activeStateColor: '#4a90e2',
   keyBorderRadius: '0.5vw',
   keyFontSize: '32px',
-  keyHeight: '100%',
+  keyHeight: 'clamp(40px, 6.5vh, 60px)',
 } as const;

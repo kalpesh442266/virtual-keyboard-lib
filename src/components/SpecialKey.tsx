@@ -11,6 +11,9 @@ export const SpecialKey: FC<SpecialKeyProps> = memo((props) => {
     text,
     capsLock = false,
     enableContinuousPress = false,
+    disabled = false,
+    continuousPressConfig,
+    renderSpecialKey,
   } = props;
 
   const isCapsLockActive = type === 'caps' && capsLock;
@@ -22,29 +25,37 @@ export const SpecialKey: FC<SpecialKeyProps> = memo((props) => {
     .filter(Boolean)
     .join(' ');
 
-  // Use continuous press for backspace (hold to delete continuously)
+  // Use continuous press for backspace (hold to delete continuously).
+  // Timing is configurable via continuousPressConfig, falling back to defaults.
   const continuousPressHandlers = useContinuousPress(onClick, {
-    initialDelay: 500,
-    interval: 50,
+    initialDelay: continuousPressConfig?.initialDelay ?? 500,
+    interval: continuousPressConfig?.interval ?? 50,
   });
 
-  // Use continuous press handlers if enabled, otherwise use regular click
-  const buttonHandlers = enableContinuousPress
-    ? continuousPressHandlers
-    : { onClick };
+  // Use continuous press handlers if enabled, otherwise use regular click.
+  // Continuous-press handlers are skipped when the key is disabled.
+  const buttonHandlers =
+    enableContinuousPress && !disabled ? continuousPressHandlers : { onClick };
 
-  return (
+  const defaultRender = (
     <button
       type="button"
       className={keyClasses}
       data-testid={`${type}${isCapsLockActive ? '-active' : ''}`}
       data-key={isCapsLockActive ? `${type}-active` : type}
+      disabled={disabled}
       {...buttonHandlers}
     >
       {icon && icon}
       {text && <span className="vk-key__text">{text}</span>}
     </button>
   );
+
+  if (renderSpecialKey) {
+    return <>{renderSpecialKey(type, defaultRender)}</>;
+  }
+
+  return defaultRender;
 });
 
 SpecialKey.displayName = 'SpecialKey';

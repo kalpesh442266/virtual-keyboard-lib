@@ -1,6 +1,14 @@
-import { useCallback, useEffect, useState, type FC } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState, type FC } from 'react';
 import type { VirtualKeyboardProps, LayoutType } from '../types';
-import { createCaretManager, setupHardwareKeyboard, validateValueUtil, getInitialLayout } from '../utils';
+import {
+  createCaretManager,
+  setupHardwareKeyboard,
+  validateValueUtil,
+  getInitialLayout,
+  themeToCssVars,
+  scrollInputIntoView,
+  resetScrollPosition,
+} from '../utils';
 import { KeyboardLayout } from './KeyboardLayout';
 import { VirtualKeyboardContainer } from './VirtualKeyboardContainer';
 
@@ -20,8 +28,16 @@ export const VirtualKeyboard: FC<VirtualKeyboardProps> = ({
   className,
   defaultLayout = 'letters',
   validate,
+  theme,
   syncWithHardwareKeyboard = true,
   customLayouts,
+  continuousPressConfig,
+  scrollConfig,
+  keyLabels,
+  hiddenKeys,
+  disabledKeys,
+  renderKey,
+  renderSpecialKey,
   languages,
   currentLanguage,
   onLanguageChange,
@@ -30,10 +46,16 @@ export const VirtualKeyboard: FC<VirtualKeyboardProps> = ({
   const [capsLock, setCapsLock] = useState(false);
   const [selectedLanguage, setSelectedLanguage] = useState(currentLanguage || Object.keys(languages || {})[0] || 'en');
   const { insertText, backspace } = createCaretManager(() => focusedInputRef.current);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   const [currentLayout, setCurrentLayout] = useState<LayoutType>(() =>
     getInitialLayout(inputType, defaultLayout)
   );
+
+  // Keep selected language in sync when the controlled prop changes
+  useEffect(() => {
+    if (currentLanguage) setSelectedLanguage(currentLanguage);
+  }, [currentLanguage]);
 
   const updateValue = useCallback(
     (next: string) => {
@@ -104,6 +126,27 @@ export const VirtualKeyboard: FC<VirtualKeyboardProps> = ({
     handleCapsToggle,
   ]);
 
+  // Scroll the focused input into view when the keyboard appears (opt-out via
+  // scrollConfig.enabled = false). Shifts sibling content up so the keyboard
+  // does not cover the active input.
+  useEffect(() => {
+    if (scrollConfig?.enabled === false) return;
+    if (!isInputFocused) return;
+
+    const input = focusedInputRef.current;
+    const container = containerRef.current;
+    if (!input || !container) return;
+
+    const id = setTimeout(() => {
+      scrollInputIntoView(input, container, scrollConfig?.offset);
+    }, 0);
+
+    return () => {
+      clearTimeout(id);
+      resetScrollPosition();
+    };
+  }, [isInputFocused, focusedInputRef, scrollConfig?.enabled, scrollConfig?.offset]);
+
   // Handle language change
   const handleLanguageChange = (lang: string) => {
     setSelectedLanguage(lang);
@@ -113,13 +156,17 @@ export const VirtualKeyboard: FC<VirtualKeyboardProps> = ({
   // Determine active layouts (language-specific or custom or default)
   const activeLayouts = languages?.[selectedLanguage] || customLayouts;
 
+  // Map the theme prop to CSS custom properties applied on the container
+  const themeStyle = useMemo(() => themeToCssVars(theme), [theme]);
+
   return (
-    <VirtualKeyboardContainer className={className}>
+    <VirtualKeyboardContainer ref={containerRef} className={className} style={themeStyle}>
       {showLanguageSwitcher && languages && Object.keys(languages).length > 1 && (
         <div className="vk-language-switcher">
           {Object.entries(languages).map(([code, config]) => (
             <button
               key={code}
+              type="button"
               className={`vk-lang-btn ${selectedLanguage === code ? 'active' : ''}`}
               onClick={() => handleLanguageChange(code)}
             >
@@ -139,6 +186,12 @@ export const VirtualKeyboard: FC<VirtualKeyboardProps> = ({
         onLayoutToggle={() => setCurrentLayout((prev) => (prev === 'letters' ? 'symbols' : 'letters'))}
         inputType={inputType}
         customLayouts={activeLayouts}
+        keyLabels={keyLabels}
+        hiddenKeys={hiddenKeys}
+        disabledKeys={disabledKeys}
+        renderKey={renderKey}
+        renderSpecialKey={renderSpecialKey}
+        continuousPressConfig={continuousPressConfig}
       />
     </VirtualKeyboardContainer>
   );

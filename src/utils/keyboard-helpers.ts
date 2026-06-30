@@ -1,7 +1,54 @@
-import type { RefObject } from 'react';
+import type { CSSProperties, RefObject } from 'react';
 import { setInputValueAndDispatchEvents } from './input-value-sync';
+import type { VirtualKeyboardTheme } from '../types';
 
 type FocusedInputRef = RefObject<HTMLInputElement | HTMLTextAreaElement | null>;
+
+/**
+ * Map a VirtualKeyboardTheme object to the CSS custom properties consumed by
+ * the keyboard stylesheet. Returns a style object that can be spread onto the
+ * keyboard container. Only defined theme keys produce variables, so partial
+ * themes work and undefined keys fall back to the stylesheet defaults.
+ */
+export const themeToCssVars = (theme?: VirtualKeyboardTheme): CSSProperties => {
+  if (!theme) return {};
+
+  const mapping: Record<keyof VirtualKeyboardTheme, string> = {
+    backgroundColor: '--vk-bg-color',
+    keyColor: '--vk-key-color',
+    keyTextColor: '--vk-key-text-color',
+    keyActiveColor: '--vk-key-active-color',
+    keyHoverColor: '--vk-key-hover-color',
+    activeStateColor: '--vk-active-state-color',
+    keyBorderRadius: '--vk-key-border-radius',
+    keyFontSize: '--vk-key-font-size',
+    keyHeight: '--vk-key-height',
+  };
+
+  const vars: Record<string, string> = {};
+  for (const key of Object.keys(mapping) as Array<keyof VirtualKeyboardTheme>) {
+    const value = theme[key];
+    if (value !== undefined && value !== null && value !== '') {
+      vars[mapping[key]] = String(value);
+    }
+  }
+
+  return vars as CSSProperties;
+};
+
+/**
+ * Case-insensitive check of whether any of the given identifiers appears in a
+ * key list (used for hiddenKeys / disabledKeys matching). A character key
+ * passes its own value; a special key passes its type plus aliases.
+ */
+export const keyListMatches = (
+  list: string[] | undefined,
+  identifiers: Array<string | undefined>
+): boolean => {
+  if (!list || list.length === 0) return false;
+  const set = new Set(list.map((item) => item.toLowerCase()));
+  return identifiers.some((id) => id != null && set.has(id.toLowerCase()));
+};
 
 /**
  * Handle Enter key click - blur input and submit form if applicable

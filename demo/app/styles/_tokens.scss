@@ -1,0 +1,44 @@
+// Design tokens shared across all demo component modules.
+// Import with: @use '../styles/tokens' as t;  →  t.$accent, t.$surface, ...
+
+// Surfaces & background
+$bg: #0f172a;
+$surface: #0b1220;
+$surface-alt: #111827;
+$border: #1f2937;
+$border-strong: #374151;
+
+// Text
+$text: #e2e8f0;
+$text-soft: #cbd5e1;
+$text-muted: #94a3b8;
+
+// Accents
+$accent: #38bdf8;
+$accent-2: #818cf8;
+$accent-3: #34d399;
+$danger: #ef4444;
+$coffee: #ffdd00; // Buy Me a Coffee brand yellow
+$coffee-text: #0f172a;
+
+// Radii
+$radius-sm: 8px;
+$radius-md: 12px;
+
+// Spacing rhythm
+$gap: 16px;
+
+// Shared gradients / fills
+$brand-gradient: linear-gradient(135deg, #{$accent} 0%, #{$accent-2} 100%);
+
+// Reusable mixins
+@mixin card {
+  background: $surface;
+  border: 1px solid $border;
+  border-radius: $radius-md;
+}
+
+@mixin focus-ring {
+  border-color: $accent;
+  box-shadow: 0 0 0 4px rgba(56, 189, 248, 0.2);
+}

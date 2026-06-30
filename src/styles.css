@@ -14,6 +14,10 @@
   --vk-gap: clamp(3px, 0.6vw, 10px);
   --vk-padding: clamp(6px, 1vw, 16px);
   --vk-height: 45vh;
+  /* Per-key (and therefore per-row) height. Drives the overall keyboard size
+     so layouts with more rows (e.g. accented languages) grow taller instead of
+     squashing keys below their touch target. Override via theme.keyHeight. */
+  --vk-key-height: clamp(40px, 6.5vh, 60px);
   --vk-z-index: 2001;
   --vk-numbers-width: 50%;
 }
@@ -25,16 +29,19 @@
   left: 0;
   right: 0;
   z-index: var(--vk-z-index);
-  height: var(--vk-height);
-  max-height: 90vh;
-  /* Changed from 400px */
-  min-height: 180px;
+  /* Content-driven height: the keyboard is as tall as its rows need, capped so
+     it never covers the whole screen (scrolls only as a last resort). This
+     prevents row overlap when a layout has many rows. */
+  height: auto;
+  max-height: 92vh;
   background-color: var(--vk-bg-color);
   box-shadow: 0 -2px 12px rgba(0, 0, 0, 0.5);
   padding: var(--vk-padding);
   box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: var(--vk-gap);
   overflow-y: auto;
-  /* Added overflow handling */
 }
 
 .vk-container * {
@@ -47,7 +54,8 @@
   flex-direction: column;
   gap: var(--vk-gap);
   justify-content: center;
-  height: 100%;
+  flex: 0 0 auto;
+  width: 100%;
   max-width: 1400px;
   margin: 0 auto;
 }
@@ -69,15 +77,14 @@
   display: flex;
   gap: var(--vk-gap);
   justify-content: center;
-  align-items: center;
-  flex: 1;
-  min-height: 0;
+  align-items: stretch;
+  flex: 0 0 auto;
 }
 
 /* Base Key Styles */
 .vk-key {
-  height: 100%;
-  min-height: 32px;
+  height: var(--vk-key-height, clamp(40px, 6.5vh, 60px));
+  min-height: 40px;
   display: flex;
   font-size: var(--vk-key-font-size);
   align-items: center;
