@@ -1,6 +1,6 @@
 {
   "name": "reactjs-virtual-keyboard",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "A customizable virtual keyboard component for React applications with support for multiple layouts, multi-language support, hardware keyboard sync, and touch devices",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
